@@ -17,24 +17,18 @@ pre: " <b> 4. </b> "
 > * Outcomes or value gained (lessons learned, new skills, contribution to the team/project)
 > * This listing helps demonstrate your actual participation as well as the soft skills and experience you have gained from each event.
 
-During my internship in the First Cloud AI Journey bootcamp, I participated in two technical events hosted by AWS Vietnam and the AWS Community:
+During my internship in the First Cloud AI Journey bootcamp, I participated in an insightful technical event hosted by the AWS Community:
 
-### [Event 1 - GenAI-powered App-DB Modernization Workshop](4.1-Event1/)  
-&emsp;**Event Name:** GenAI-powered App-DB Modernization Workshop  
+### [Event 1 - FCAJ Community Day 2026](4.1-Event1/)  
+&emsp;**Event Name:** FCAJ Community Day 2026  
 
-&emsp;**Date & Time:** 09:00, June 18, 2026  
+&emsp;**Date & Time:** July 11, 2026  
 
-&emsp;**Location:** AWS Vietnam Office, 26th Floor, Bitexco Financial Tower, 02 Hai Trieu, Ben Nghe, District 1, HCMC  
+&emsp;**Location:** 26th Floor, Bitexco Financial Tower, Ho Chi Minh City  
 
 &emsp;**Role:** Attendee  
 
----
-
-### [Event 2 - AWS Community Day Vietnam 2026](4.2-Event2/)  
-&emsp;**Event Name:** AWS Community Day Vietnam 2026 - Generative AI & Cloud Masterclass  
-
-&emsp;**Date & Time:** 08:30, July 11, 2026  
-
-&emsp;**Location:** New World Saigon Hotel, 76 Le Lai, District 1, Ho Chi Minh City  
-
-&emsp;**Role:** Attendee & Community Builder  
+&emsp;**Key Activities:**  
+&emsp; - Observed the finale of the AWS Cloud & Solutions Architect mini-hackathon  
+&emsp; - Attended a deep-dive session and live demo on AWS Security Agents (SSM Agent, Amazon Inspector, Amazon GuardDuty)  
+&emsp; - Explored the roadmap and structure for the AWS Certified Cloud Practitioner certification

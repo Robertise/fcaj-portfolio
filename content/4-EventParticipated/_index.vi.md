@@ -18,25 +18,18 @@ pre: " <b> 4. </b> "
 > * Việc liệt kê này giúp thể hiện rõ sự tham gia thực tế của bạn, cũng như các kỹ năng mềm và kinh nghiệm bạn đã tích lũy qua từng sự kiện.
 
 
-Trong quá trình thực tập tại chương trình First Cloud AI Journey, em đã tham gia 2 sự kiện kỹ thuật do AWS Việt Nam và Cộng đồng AWS tổ chức:
+Trong quá trình thực tập tại chương trình First Cloud AI Journey, em đã tham gia sự kiện kỹ thuật do Cộng đồng AWS tổ chức:
 
-### [Event 1 - GenAI-powered App-DB Modernization Workshop](4.1-Event1/)
-&emsp;**Tên sự kiện:** GenAI-powered App-DB Modernization Workshop
+### [Event 1 - FCAJ Community Day 2026](4.1-Event1/)
+&emsp;**Tên sự kiện:** FCAJ Community Day 2026
 
-&emsp;**Thời gian:** 09:00 ngày 18/06/2026
+&emsp;**Thời gian:** 11/07/2026
 
-&emsp;**Địa điểm:** Văn phòng AWS Việt Nam, Tầng 26, Tòa nhà Bitexco Financial Tower, 02 Hải Triều, Bến Nghé, Quận 1, TP.HCM
+&emsp;**Địa điểm:** Tầng 26, Tháp tài chính Bitexco (Bitexco Financial Tower), TP. Hồ Chí Minh
 
 &emsp;**Vai trò trong sự kiện:** Người tham dự 
 
----
-
-### [Event 2 - AWS Community Day Vietnam 2026](4.2-Event2/)
-&emsp;**Tên sự kiện:** AWS Community Day Vietnam 2026 - Generative AI & Cloud Masterclass
-
-&emsp;**Thời gian:** 08:30 ngày 11/07/2026
-
-&emsp;**Địa điểm:** Khách sạn New World Saigon, 76 Lê Lai, Quận 1, TP. Hồ Chí Minh
-
-&emsp;**Vai trò trong sự kiện:** Người tham dự & Học viên Bootcamp
-
+&emsp;**Các hoạt động chính:**  
+&emsp; - Theo dõi chung kết cuộc thi thi đấu kiến thức về AWS Cloud & Solutions Architect  
+&emsp; - Tham gia phiên chia sẻ chuyên sâu và demo trực tiếp về các dịch vụ bảo mật (AWS Security Agent, SSM Agent, Amazon Inspector)  
+&emsp; - Tìm hiểu lộ trình và cấu trúc bài thi chứng chỉ AWS Certified Cloud Practitioner
