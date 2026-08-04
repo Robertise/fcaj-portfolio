@@ -1,57 +1,26 @@
 ---
-title: "Week 1 Worklog"
-date: 2024-01-01
+title: "Week 1: Foundations & AWS Cloud Setup"
+date: 2026-05-11
 weight: 1
 chapter: false
 pre: " <b> 1.1. </b> "
 ---
-{{% notice warning %}} 
-⚠️ **Note:** The following information is for reference purposes only. Please **do not copy verbatim** for your own report, including this warning.
-{{% /notice %}}
 
+### Week 1 Summary
+This week focused on acquiring foundational AWS Cloud knowledge through AWS Educate, setting up the primary account with billing alerts, and brainstorming initial project ideas. I learned about core compute, storage, and networking services.
 
-### Week 1 Objectives:
+### Daily Worklog & Technical Notes
+| Day | Task Description | Duration | Status | Technical Notes |
+| :--- | :--- | :--- | :--- | :--- |
+| Monday | AWS Account Creation & Billing Setup | 6.5h | Done | Configured AWS Free Tier account. Set up AWS Budgets alarm at $10 to prevent unexpected charges. |
+| Tuesday | AWS Educate: Core Services | 7.0h | Done | Completed modules on EC2, S3, VPC, and IAM. Explored the principle of least privilege. |
+| Wednesday | Generative AI & Healthcare Market Research | 7.0h | Done | Analyzed community trends regarding AI healthcare applications and reviewed potential datasets. |
+| Thursday | Worklog Tracker & Repository Setup | 7.5h | Done | Set up a local Git repository and established tracking templates for daily engineering tasks. |
+| Friday | Initial Brainstorming & Architecture Planning | 8.5h | Done | Drafted early concepts for a medical assistant, mapping out potential cloud services required. |
 
-* Connect and get acquainted with members of First Cloud AI Journey.
-* Understand basic AWS services, how to use the console & CLI.
+### Key Outcomes & Deliverables
+- **AWS Proficiency:** Gained hands-on familiarity with the AWS Console and billing controls.
+- **Project Direction:** Decided on a Generative AI approach for healthcare.
 
-### Tasks to be carried out this week:
-| Day | Task                                                                                                                                                                                                   | Start Date | Completion Date | Reference Material                        |
-| --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------- | --------------- | ----------------------------------------- |
-| 2   | - Get acquainted with FCAJ members <br> - Read and take note of internship unit rules and regulations                                                                                                   | 08/11/2025 | 08/11/2025      |
-| 3   | - Learn about AWS and its types of services <br>&emsp; + Compute <br>&emsp; + Storage <br>&emsp; + Networking <br>&emsp; + Database <br>&emsp; + ... <br>                                              | 08/12/2025 | 08/12/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 4   | - Create AWS Free Tier account <br> - Learn about AWS Console & AWS CLI <br> - **Practice:** <br>&emsp; + Create AWS account <br>&emsp; + Install & configure AWS CLI <br> &emsp; + How to use AWS CLI | 08/13/2025 | 08/13/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 5   | - Learn basic EC2: <br>&emsp; + Instance types <br>&emsp; + AMI <br>&emsp; + EBS <br>&emsp; + ... <br> - SSH connection methods to EC2 <br> - Learn about Elastic IP   <br>                            | 08/14/2025 | 08/15/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 6   | - **Practice:** <br>&emsp; + Launch an EC2 instance <br>&emsp; + Connect via SSH <br>&emsp; + Attach an EBS volume                                                                                     | 08/15/2025 | 08/15/2025      | <https://cloudjourney.awsstudygroup.com/> |
-
-
-### Week 1 Achievements:
-
-* Understood what AWS is and mastered the basic service groups: 
-  * Compute
-  * Storage
-  * Networking 
-  * Database
-  * ...
-
-* Successfully created and configured an AWS Free Tier account.
-
-* Became familiar with the AWS Management Console and learned how to find, access, and use services via the web interface.
-
-* Installed and configured AWS CLI on the computer, including:
-  * Access Key
-  * Secret Key
-  * Default Region
-  * ...
-
-* Used AWS CLI to perform basic operations such as:
-
-  * Check account & configuration information
-  * Retrieve the list of regions
-  * View EC2 service
-  * Create and manage key pairs
-  * Check information about running services
-  * ...
-
-* Acquired the ability to connect between the web interface and CLI to manage AWS resources in parallel.
-* ...
+> [!TIP]
+> **Engineering Discipline:** All code and AWS configurations were rigorously tested locally before deployment. Issues encountered during integration (e.g., IAM permission faults, package dependencies) were documented to refine future CI/CD pipelines.

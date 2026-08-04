@@ -1,59 +1,26 @@
 ---
-title: "Worklog Tuần 8"
-date: 2024-01-01
-weight: 1
+title: "Tuần 8: Mở rộng Nạp dữ liệu & Tái cấu trúc DynamoDB"
+date: 2026-05-11
+weight: 8
 chapter: false
 pre: " <b> 1.8. </b> "
 ---
-{{% notice warning %}}
-⚠️ **Lưu ý:** Các thông tin dưới đây chỉ nhằm mục đích tham khảo, vui lòng **không sao chép nguyên văn** cho bài báo cáo của bạn kể cả warning này.
-{{% /notice %}}
 
+### Tóm tắt Tuần 8
+Hoàn thiện pipeline nạp dữ liệu, nhúng thành công toàn bộ tài liệu hướng dẫn lâm sàng. Tái cấu trúc toàn bộ tầng database của backend để kết nối mượt mà với các bảng Amazon DynamoDB On-Demand.
 
-### Mục tiêu tuần 8:
+### Nhật ký Làm việc & Ghi chú Kỹ thuật
+| Ngày | Mô tả Công việc | Thời lượng | Trạng thái | Ghi chú Kỹ thuật |
+| :--- | :--- | :--- | :--- | :--- |
+| Thứ Hai | Script Nạp Dữ liệu Hàng loạt | 6.5h | Hoàn thành | Viết script Python dùng `sentence-transformers` (build CPU) để batch embed hàng loạt tài liệu WHO. |
+| Thứ Ba | Xử lý Embedding Qdrant | 8.0h | Hoàn thành | Thực thi kịch bản batch ingestion, ánh xạ toàn bộ 14 danh mục lâm sàng vào collection `pedix_kb`. |
+| Thứ Tư | Tái cấu trúc DynamoDB Phần 1 | 8.5h | Hoàn thành | Thay thế mock storage bằng Boto3. Áp dụng các lệnh `Query` và `PutItem` tối ưu cho cơ sở dữ liệu thực. |
+| Thứ Năm | Xử lý DB Bất đồng bộ | 7.5h | Hoàn thành | Đưa các lệnh Boto3 (vốn là blocking) vào `run_in_threadpool` của FastAPI để tránh nghẽn event loop ASGI. |
+| Thứ Sáu | Thiết kế Khóa DynamoDB | 8.0h | Hoàn thành | Thiết kế Khóa chính Phức hợp (Partition Key: `user_id`, Sort Key: `profile_id`) để loại bỏ hoàn toàn lệnh `Scan`. |
 
-* Kết nối, làm quen với các thành viên trong First Cloud AI Journey.
-* Hiểu dịch vụ AWS cơ bản, cách dùng console & CLI.
+### Kết quả Kỹ thuật Đạt được
+- **Sẵn sàng Database:** Backend tích hợp chuẩn pattern DynamoDB cấp độ production.
+- **Tri thức Đã nhúng:** Hơn 10.000 dòng hướng dẫn lâm sàng đã được vector hóa thành công.
 
-### Các công việc cần triển khai trong tuần này:
-| Thứ | Công việc                                                                                                                                                                                   | Ngày bắt đầu | Ngày hoàn thành | Nguồn tài liệu                            |
-| --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ | --------------- | ----------------------------------------- |
-| 2   | - Làm quen với các thành viên FCAJ <br> - Đọc và lưu ý các nội quy, quy định tại đơn vị thực tập                                                                                             | 11/08/2025   | 11/08/2025      |
-| 3   | - Tìm hiểu AWS và các loại dịch vụ <br>&emsp; + Compute <br>&emsp; + Storage <br>&emsp; + Networking <br>&emsp; + Database <br>&emsp; + ... <br>                                            | 12/08/2025   | 12/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 4   | - Tạo AWS Free Tier account <br> - Tìm hiểu AWS Console & AWS CLI <br> - **Thực hành:** <br>&emsp; + Tạo AWS account <br>&emsp; + Cài AWS CLI & cấu hình <br> &emsp; + Cách sử dụng AWS CLI | 13/08/2025   | 13/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 5   | - Tìm hiểu EC2 cơ bản: <br>&emsp; + Instance types <br>&emsp; + AMI <br>&emsp; + EBS <br>&emsp; + ... <br> - Các cách remote SSH vào EC2 <br> - Tìm hiểu Elastic IP   <br>                  | 14/08/2025   | 15/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 6   | - **Thực hành:** <br>&emsp; + Tạo EC2 instance <br>&emsp; + Kết nối SSH <br>&emsp; + Gắn EBS volume                                                                                         | 15/08/2025   | 15/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
-
-
-### Kết quả đạt được tuần 8:
-
-* Hiểu AWS là gì và nắm được các nhóm dịch vụ cơ bản: 
-  * Compute
-  * Storage
-  * Networking 
-  * Database
-  * ...
-
-* Đã tạo và cấu hình AWS Free Tier account thành công.
-
-* Làm quen với AWS Management Console và biết cách tìm, truy cập, sử dụng dịch vụ từ giao diện web.
-
-* Cài đặt và cấu hình AWS CLI trên máy tính bao gồm:
-  * Access Key
-  * Secret Key
-  * Region mặc định
-  * ...
-
-* Sử dụng AWS CLI để thực hiện các thao tác cơ bản như:
-
-  * Kiểm tra thông tin tài khoản & cấu hình
-  * Lấy danh sách region
-  * Xem dịch vụ EC2
-  * Tạo và quản lý key pair
-  * Kiểm tra thông tin dịch vụ đang chạy
-  * ...
-
-* Có khả năng kết nối giữa giao diện web và CLI để quản lý tài nguyên AWS song song.
-* ...
-
-
+> [!TIP]
+> **Kỷ luật Kỹ thuật:** Toàn bộ mã nguồn và cấu hình AWS đều được kiểm thử gắt gao ở local trước khi đẩy lên cloud. Mọi sự cố phát sinh trong quá trình tích hợp (ví dụ: lỗi cấp quyền IAM, xung đột package) đều được ghi chú lại để hoàn thiện các quy trình CI/CD sau này.

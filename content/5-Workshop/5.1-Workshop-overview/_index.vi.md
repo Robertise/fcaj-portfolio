@@ -6,14 +6,18 @@ chapter : false
 pre : " <b> 5.1. </b> "
 ---
 
-#### Giới thiệu về VPC Endpoint
+#### Kiến trúc Pedix & Các Dịch vụ AWS
 
-+ Điểm cuối VPC (endpoint) là thiết bị ảo. Chúng là các thành phần VPC có thể mở rộng theo chiều ngang, dự phòng và có tính sẵn sàng cao. Chúng cho phép giao tiếp giữa tài nguyên điện toán của bạn và dịch vụ AWS mà không gây ra rủi ro về tính sẵn sàng.
-+ Tài nguyên điện toán đang chạy trong VPC có thể truy cập Amazon S3 bằng cách sử dụng điểm cuối Gateway. Interface Endpoint  PrivateLink có thể được sử dụng bởi tài nguyên chạy trong VPC hoặc tại TTDL.
+**Pedix** là hệ thống Agentic Retrieval-Augmented Generation (RAG) Level 4 phân tầng độ tuổi y khoa được xây dựng hoàn toàn trên hạ tầng đám mây AWS.
 
-#### Tổng quan về workshop
-Trong workshop này, bạn sẽ sử dụng hai VPC.
-+ **"VPC Cloud"** dành cho các tài nguyên cloud như Gateway endpoint và EC2 instance để kiểm tra.
-+ **"VPC On-Prem"** mô phỏng môi trường truyền thống như nhà máy hoặc trung tâm dữ liệu của công ty. Một EC2 Instance chạy phần mềm StrongSwan VPN đã được triển khai trong "VPC On-prem" và được cấu hình tự động để thiết lập đường hầm VPN Site-to-Site với AWS Transit Gateway. VPN này mô phỏng kết nối từ một vị trí tại TTDL (on-prem) với AWS cloud. Để giảm thiểu chi phí, chỉ một phiên bản VPN được cung cấp để hỗ trợ workshop này. Khi lập kế hoạch kết nối VPN cho production workloads của bạn, AWS khuyên bạn nên sử dụng nhiều thiết bị VPN để có tính sẵn sàng cao.
+Hệ thống kết nối 12 dịch vụ đám mây cốt lõi của AWS tạo thành một hạ tầng chuẩn Production an toàn, bảo mật và tối ưu chi phí:
++ **Giao diện Frontend:** Mã nguồn tĩnh React (Vite) lưu trữ trên **Amazon S3** và phân phối toàn cầu qua **Amazon CloudFront** với Origin Access Control (OAC).
++ **Quản lý Định danh:** Xác thực người dùng và phân quyền nhóm tự động qua **Amazon Cognito** và **AWS Lambda** (Post-Confirmation trigger).
++ **Lớp API & Bảo mật:** Luồng dữ liệu công cộng đi qua **Amazon API Gateway (REST API)**, định tuyến qua **VPC Link V2** tới **Internal Application Load Balancer (ALB)**.
++ **Máy chủ Backend:** **Amazon EC2 (t3.micro)** chạy FastAPI backend server, mô hình sentence-transformers và **Qdrant Vector DB** trong môi trường Docker.
++ **Generative AI:** Phân tích truy vấn lâm sàng và quy trình suy luận 5 giai đoạn được vận hành bởi **Amazon Bedrock (Claude Sonnet & Haiku)**.
++ **Lưu trữ & Vận hành:** Dữ liệu phiên hội thoại và phân tích lưu tại **Amazon DynamoDB**, kết hợp giám sát log và báo động chi phí từ **Amazon CloudWatch** và **AWS Budgets**.
 
-![overview](/images/5-Workshop/5.1-Workshop-overview/diagram1.png)
+#### Sơ đồ Kiến trúc Cloud
+
+![Kiến trúc AWS Pedix](/images/5-Workshop/5.1-Workshop-overview/diagram1.png)

@@ -1,59 +1,26 @@
 ---
-title: "Worklog Tuần 11"
-date: 2024-01-01
-weight: 2
+title: "Tuần 11: Phân quyền Bảo mật & Cấu hình Mô hình AI"
+date: 2026-05-11
+weight: 11
 chapter: false
 pre: " <b> 1.11. </b> "
 ---
-{{% notice warning %}}
-⚠️ **Lưu ý:** Các thông tin dưới đây chỉ nhằm mục đích tham khảo, vui lòng **không sao chép nguyên văn** cho bài báo cáo của bạn kể cả warning này.
-{{% /notice %}}
 
+### Tóm tắt Tuần 11
+Chốt các lớp bảo mật kiến trúc đám mây. Cấu hình IAM Policy chi tiết và đánh giá giới hạn băng thông mô hình Bedrock, quyết định chọn Claude Haiku để cân bằng chi phí và hiệu năng.
 
-### Mục tiêu tuần 11:
+### Nhật ký Làm việc & Ghi chú Kỹ thuật
+| Ngày | Mô tả Công việc | Thời lượng | Trạng thái | Ghi chú Kỹ thuật |
+| :--- | :--- | :--- | :--- | :--- |
+| Thứ Hai | Kiểm thử E2E Local Phần 1 | 8.5h | Hoàn thành | Chạy bài test tích hợp quy mô lớn. Kiểm tra mọi luồng UI và các vết suy luận RAG (Agentic Reasoning traces). |
+| Thứ Ba | Kiểm thử E2E Local Phần 2 | 7.5h | Hoàn thành | Kiểm tra các kết nối DynamoDB mock và các luồng xác thực Cognito trước khi tiến hành đẩy lên Cloud. |
+| Thứ Tư | Phân quyền IAM Tối thiểu | 7.0h | Hoàn thành | Tạo `Pedix-EC2-Role` khóa quyền DynamoDB. Xóa bỏ hoàn toàn hardcode credential trên server EC2. |
+| Thứ Năm | Rà soát Môi trường AWS Cloud | 8.5h | Hoàn thành | Kiểm tra các hạn mức (quotas) của region `ap-southeast-1` để đảm bảo đủ tài nguyên triển khai production. |
+| Thứ Sáu | Chuyển đổi Mô hình Bedrock | 8.5h | Hoàn thành | Chuyển từ Claude 3.5 Sonnet sang Claude 3 Haiku để vượt qua rào cản rate limit cực gắt (ThrottlingException) của Free Tier. |
 
-* Kết nối, làm quen với các thành viên trong First Cloud AI Journey.
-* Hiểu dịch vụ AWS cơ bản, cách dùng console & CLI.
+### Kết quả Kỹ thuật Đạt được
+- **Tuân thủ Bảo mật:** Đảm bảo 100% nguyên tắc quyền hạn tối thiểu IAM.
+- **Độ ổn định:** Vượt qua rào cản giới hạn request của AI trên môi trường Free Tier.
 
-### Các công việc cần triển khai trong tuần này:
-| Thứ | Công việc                                                                                                                                                                                   | Ngày bắt đầu | Ngày hoàn thành | Nguồn tài liệu                            |
-| --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ | --------------- | ----------------------------------------- |
-| 2   | - Làm quen với các thành viên FCAJ <br> - Đọc và lưu ý các nội quy, quy định tại đơn vị thực tập                                                                                             | 11/08/2025   | 11/08/2025      |
-| 3   | - Tìm hiểu AWS và các loại dịch vụ <br>&emsp; + Compute <br>&emsp; + Storage <br>&emsp; + Networking <br>&emsp; + Database <br>&emsp; + ... <br>                                            | 12/08/2025   | 12/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 4   | - Tạo AWS Free Tier account <br> - Tìm hiểu AWS Console & AWS CLI <br> - **Thực hành:** <br>&emsp; + Tạo AWS account <br>&emsp; + Cài AWS CLI & cấu hình <br> &emsp; + Cách sử dụng AWS CLI | 13/08/2025   | 13/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 5   | - Tìm hiểu EC2 cơ bản: <br>&emsp; + Instance types <br>&emsp; + AMI <br>&emsp; + EBS <br>&emsp; + ... <br> - Các cách remote SSH vào EC2 <br> - Tìm hiểu Elastic IP   <br>                  | 14/08/2025   | 15/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 6   | - **Thực hành:** <br>&emsp; + Tạo EC2 instance <br>&emsp; + Kết nối SSH <br>&emsp; + Gắn EBS volume                                                                                         | 15/08/2025   | 15/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
-
-
-### Kết quả đạt được tuần 11:
-
-* Hiểu AWS là gì và nắm được các nhóm dịch vụ cơ bản: 
-  * Compute
-  * Storage
-  * Networking 
-  * Database
-  * ...
-
-* Đã tạo và cấu hình AWS Free Tier account thành công.
-
-* Làm quen với AWS Management Console và biết cách tìm, truy cập, sử dụng dịch vụ từ giao diện web.
-
-* Cài đặt và cấu hình AWS CLI trên máy tính bao gồm:
-  * Access Key
-  * Secret Key
-  * Region mặc định
-  * ...
-
-* Sử dụng AWS CLI để thực hiện các thao tác cơ bản như:
-
-  * Kiểm tra thông tin tài khoản & cấu hình
-  * Lấy danh sách region
-  * Xem dịch vụ EC2
-  * Tạo và quản lý key pair
-  * Kiểm tra thông tin dịch vụ đang chạy
-  * ...
-
-* Có khả năng kết nối giữa giao diện web và CLI để quản lý tài nguyên AWS song song.
-* ...
-
-
+> [!TIP]
+> **Kỷ luật Kỹ thuật:** Toàn bộ mã nguồn và cấu hình AWS đều được kiểm thử gắt gao ở local trước khi đẩy lên cloud. Mọi sự cố phát sinh trong quá trình tích hợp (ví dụ: lỗi cấp quyền IAM, xung đột package) đều được ghi chú lại để hoàn thiện các quy trình CI/CD sau này.

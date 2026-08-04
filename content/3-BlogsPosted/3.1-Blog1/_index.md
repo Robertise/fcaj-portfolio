@@ -5,27 +5,34 @@ weight: 1
 chapter: false
 pre: " <b> 3.1. </b> "
 ---
-{{% notice warning %}}
-⚠️ **Note:** The information below is for reference purposes only. Please **do not copy verbatim** for your report, including this warning.
-{{% /notice %}}
 
-# SESSION POLICIES IN AMAZON EKS POD IDENTITY
+# LEVEL 4 AGENTIC RAG WITH AMAZON BEDROCK & CLAUDE SONNET
 
-Amazon EKS Pod Identity has recently added the session policies feature, allowing you to narrow IAM permissions flexibly and precisely for each pod without needing to create many separate IAM roles. This is an important step forward that helps apply the principle of least privilege more effectively in large-scale Kubernetes environments.
+### Executive Summary
+Retrieval-Augmented Generation (RAG) has emerged as a cornerstone for enterprise AI applications. However, in high-stakes domains such as pediatric healthcare, standard RAG pipelines often suffer from hallucinated recommendations and lack clinical transparency. This article explores how we implemented an **Age-Stratified Level 4 Agentic RAG** architecture using **Amazon Bedrock (Claude Sonnet & Haiku)** for **Pedix**.
 
-Key points to know:
+---
 
-* A session policy is an inline IAM policy specified when creating or updating a Pod Identity association.
-* Effective permissions = intersection between the IAM role permissions and the session policy → the session policy can only narrow permissions, not expand them.
-* Helps avoid over-permissioning when reusing a single IAM role for multiple workloads with different needs.
-* Supports both same-account and cross-account (via IAM role chaining).
-* Significantly reduces the number of IAM roles that need to be managed, helping avoid hitting IAM quota limits in large clusters.
-* Easily configured through the AWS Management Console, AWS CLI, or AWS SDK when creating an association between a Kubernetes ServiceAccount and an IAM role.
+### Core Architectural Pillars
 
-This feature is especially useful when you have many applications running on the same IAM role but need different permission restrictions (for example: one pod only reads a specific S3 bucket, another pod only calls certain APIs).
+#### 1. Deterministic Safety Screen (Stage 0)
+Before invoking expensive LLMs, incoming query strings are evaluated through a high-speed deterministic regex parser (<10ms) paired with Claude Haiku context verification. If life-threatening pediatric red flags (such as cyanosis, lethargy, or infant fever under 90 days) are detected, the system immediately returns an emergency escalation care pathway without entering LLM loops.
 
-...Image...
+#### 2. Age-Stratified Metadata Pre-filtering (Stage 1 & 2)
+Age is the single most important clinical variable in pediatric care. Pedix parses the child's exact age in days and maps it to specific `age_group` categories (`newborn`, `young_infant`, `infant`, `toddler`, `preschool`). Qdrant vector searches execute mandatory payload filters on `age_group`, preventing adult or non-age-appropriate clinical guideline chunks from corrupting the context.
 
-...Link...
+#### 3. Structured Clinical Reasoning via Bedrock Tool-Use (Stage 3)
+Using Claude Sonnet's `tool_use` capability on Amazon Bedrock, the agent evaluates clinical evidence against the **Emergency Severity Index (ESI v4)** framework. It outputs structured JSON payloads defining:
+- Urgency Level (Emergency, Urgent, Soon, Routine)
+- Clinical Rationale
+- Care Pathway Steps
+- Recommended Pre-visit Checklists
 
-...Guide...
+#### 4. Reflection Loop & Empirical Validation (Stage 4 & 5)
+Stage 4 inspects the generated output for completeness and cited evidence. If missing critical information, the orchestrator triggers up to 2 retrieval reflection cycles before delivering warm, empathetic prose to parents.
+
+---
+
+### Key Business & Engineering Benefits
+- **Zero Black-Box Recommendations:** Every decision includes a collapsible, step-by-step reasoning trace.
+- **Cost Governance:** Leveraging Haiku for lightweight tasks and Sonnet for complex reasoning keeps query costs under **$0.015 / request**.

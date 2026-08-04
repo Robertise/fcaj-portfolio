@@ -1,58 +1,26 @@
 ---
-title: "Worklog Tuần 6"
-date: 2024-01-01
-weight: 1
+title: "Tuần 6: Thiết kế Giao diện & Điều phối Dịch vụ"
+date: 2026-05-11
+weight: 6
 chapter: false
 pre: " <b> 1.6. </b> "
 ---
-{{% notice warning %}}
-⚠️ **Lưu ý:** Các thông tin dưới đây chỉ nhằm mục đích tham khảo, vui lòng **không sao chép nguyên văn** cho bài báo cáo của bạn kể cả warning này.
-{{% /notice %}}
 
+### Tóm tắt Tuần 6
+Chuyển trọng tâm sang trải nghiệm người dùng frontend. Thiết kế ứng dụng React chuẩn mobile-first bằng TailwindCSS và sử dụng Docker Compose để điều phối các dịch vụ backend local.
 
-### Mục tiêu tuần 6:
+### Nhật ký Làm việc & Ghi chú Kỹ thuật
+| Ngày | Mô tả Công việc | Thời lượng | Trạng thái | Ghi chú Kỹ thuật |
+| :--- | :--- | :--- | :--- | :--- |
+| Thứ Hai | Khởi tạo Khung React UI | 7.5h | Hoàn thành | Tạo React SPA bằng Vite. Cấu hình TailwindCSS và React Router cho các trang Home, Chat, Profile. |
+| Thứ Ba | Xây dựng Giao diện Chatbot (Phần 1) | 7.0h | Hoàn thành | Thiết kế sidebar dạng collapsible để hiển thị 'Vết suy luận' (Reasoning Trace) cho phép người dùng kiểm tra AI. |
+| Thứ Tư | Xây dựng Giao diện Chatbot (Phần 2) | 8.0h | Hoàn thành | Lập trình tính năng bong bóng chat tự cuộn, hiệu ứng typing indicator và thư viện render Markdown. |
+| Thứ Năm | Điều phối Dịch vụ Local | 8.0h | Hoàn thành | Viết `docker-compose.yml` map port FastAPI (8000) và Qdrant (6333). Đảm bảo mapping volume bền vững. |
+| Thứ Sáu | Kết nối Frontend-Backend | 8.5h | Hoàn thành | Gắn Axios client của React vào các endpoint của FastAPI. Xử lý triệt để CORS preflight `OPTIONS` requests. |
 
-* Kết nối, làm quen với các thành viên trong First Cloud AI Journey.
-* Hiểu dịch vụ AWS cơ bản, cách dùng console & CLI.
+### Kết quả Kỹ thuật Đạt được
+- **Giao diện Hoàn thiện:** Khung chat mượt mà, tối ưu hiển thị trên di động.
+- **Điều phối Dịch vụ:** Khởi động toàn bộ local system chỉ với 1 lệnh Docker Compose.
 
-### Các công việc cần triển khai trong tuần này:
-| Thứ | Công việc                                                                                                                                                                                   | Ngày bắt đầu | Ngày hoàn thành | Nguồn tài liệu                            |
-| --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ | --------------- | ----------------------------------------- |
-| 2   | - Làm quen với các thành viên FCAJ <br> - Đọc và lưu ý các nội quy, quy định tại đơn vị thực tập                                                                                             | 11/08/2025   | 11/08/2025      |
-| 3   | - Tìm hiểu AWS và các loại dịch vụ <br>&emsp; + Compute <br>&emsp; + Storage <br>&emsp; + Networking <br>&emsp; + Database <br>&emsp; + ... <br>                                            | 12/08/2025   | 12/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 4   | - Tạo AWS Free Tier account <br> - Tìm hiểu AWS Console & AWS CLI <br> - **Thực hành:** <br>&emsp; + Tạo AWS account <br>&emsp; + Cài AWS CLI & cấu hình <br> &emsp; + Cách sử dụng AWS CLI | 13/08/2025   | 13/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 5   | - Tìm hiểu EC2 cơ bản: <br>&emsp; + Instance types <br>&emsp; + AMI <br>&emsp; + EBS <br>&emsp; + ... <br> - Các cách remote SSH vào EC2 <br> - Tìm hiểu Elastic IP   <br>                  | 14/08/2025   | 15/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 6   | - **Thực hành:** <br>&emsp; + Tạo EC2 instance <br>&emsp; + Kết nối SSH <br>&emsp; + Gắn EBS volume                                                                                         | 15/08/2025   | 15/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
-
-
-### Kết quả đạt được tuần 6:
-* Hiểu AWS là gì và nắm được các nhóm dịch vụ cơ bản: 
-  * Compute
-  * Storage
-  * Networking 
-  * Database
-  * ...
-
-* Đã tạo và cấu hình AWS Free Tier account thành công.
-
-* Làm quen với AWS Management Console và biết cách tìm, truy cập, sử dụng dịch vụ từ giao diện web.
-
-* Cài đặt và cấu hình AWS CLI trên máy tính bao gồm:
-  * Access Key
-  * Secret Key
-  * Region mặc định
-  * ...
-
-* Sử dụng AWS CLI để thực hiện các thao tác cơ bản như:
-
-  * Kiểm tra thông tin tài khoản & cấu hình
-  * Lấy danh sách region
-  * Xem dịch vụ EC2
-  * Tạo và quản lý key pair
-  * Kiểm tra thông tin dịch vụ đang chạy
-  * ...
-
-* Có khả năng kết nối giữa giao diện web và CLI để quản lý tài nguyên AWS song song.
-* ...
-
-
+> [!TIP]
+> **Kỷ luật Kỹ thuật:** Toàn bộ mã nguồn và cấu hình AWS đều được kiểm thử gắt gao ở local trước khi đẩy lên cloud. Mọi sự cố phát sinh trong quá trình tích hợp (ví dụ: lỗi cấp quyền IAM, xung đột package) đều được ghi chú lại để hoàn thiện các quy trình CI/CD sau này.

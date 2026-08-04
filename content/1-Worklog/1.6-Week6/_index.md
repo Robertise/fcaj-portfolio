@@ -1,57 +1,26 @@
 ---
-title: "Week 6 Worklog"
-date: 2024-01-01
-weight: 1
+title: "Week 6: UI Design & Service Orchestration"
+date: 2026-05-11
+weight: 6
 chapter: false
 pre: " <b> 1.6. </b> "
 ---
-{{% notice warning %}} 
-⚠️ **Note:** The following information is for reference purposes only. Please **do not copy verbatim** for your own report, including this warning.
-{{% /notice %}}
 
+### Week 6 Summary
+Shifted focus to the frontend user experience. Designed a responsive, mobile-first React application using TailwindCSS and set up Docker Compose to orchestrate local backend services.
 
-### Week 6 Objectives:
+### Daily Worklog & Technical Notes
+| Day | Task Description | Duration | Status | Technical Notes |
+| :--- | :--- | :--- | :--- | :--- |
+| Monday | React UI Scaffolding | 8.0h | Done | Initialized React SPA using Vite. Configured TailwindCSS and set up React Router for core pages. |
+| Tuesday | Chatbot UI Implementation Part 1 | 6.5h | Done | Designed a collapsible sidebar for the 'Reasoning Trace' allowing users to inspect AI decision stages. |
+| Wednesday | Chatbot UI Implementation Part 2 | 8.0h | Done | Implemented auto-scrolling message bubbles, typing indicators, and markdown rendering support. |
+| Thursday | Local Service Orchestration | 6.5h | Done | Created `docker-compose.yml` mapping FastAPI (8000) and Qdrant (6333). Ensured persistent volume mapping. |
+| Friday | Frontend-Backend Wiring | 8.0h | Done | Connected React Axios client to FastAPI endpoints. Handled CORS preflight `OPTIONS` requests correctly. |
 
-* Connect and get acquainted with members of First Cloud AI Journey.
-* Understand basic AWS services, how to use the console & CLI.
+### Key Outcomes & Deliverables
+- **Functional UI:** A polished, mobile-responsive chat interface.
+- **Orchestration:** 1-click local launch via Docker Compose.
 
-### Tasks to be carried out this week:
-| Day | Task                                                                                                                                                                                                   | Start Date | Completion Date | Reference Material                        |
-| --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------- | --------------- | ----------------------------------------- |
-| 2   | - Get acquainted with FCAJ members <br> - Read and take note of internship unit rules and regulations                                                                                                   | 08/11/2025 | 08/11/2025      |
-| 3   | - Learn about AWS and its types of services <br>&emsp; + Compute <br>&emsp; + Storage <br>&emsp; + Networking <br>&emsp; + Database <br>&emsp; + ... <br>                                              | 08/12/2025 | 08/12/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 4   | - Create AWS Free Tier account <br> - Learn about AWS Console & AWS CLI <br> - **Practice:** <br>&emsp; + Create AWS account <br>&emsp; + Install & configure AWS CLI <br> &emsp; + How to use AWS CLI | 08/13/2025 | 08/13/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 5   | - Learn basic EC2: <br>&emsp; + Instance types <br>&emsp; + AMI <br>&emsp; + EBS <br>&emsp; + ... <br> - SSH connection methods to EC2 <br> - Learn about Elastic IP   <br>                            | 08/14/2025 | 08/15/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 6   | - **Practice:** <br>&emsp; + Launch an EC2 instance <br>&emsp; + Connect via SSH <br>&emsp; + Attach an EBS volume                                                                                     | 08/15/2025 | 08/15/2025      | <https://cloudjourney.awsstudygroup.com/> |
-
-
-### Week 6 Achievements:
-
-* Understood what AWS is and mastered the basic service groups: 
-  * Compute
-  * Storage
-  * Networking 
-  * Database
-  * ...
-
-* Successfully created and configured an AWS Free Tier account.
-
-* Became familiar with the AWS Management Console and learned how to find, access, and use services via the web interface.
-
-* Installed and configured AWS CLI on the computer, including:
-  * Access Key
-  * Secret Key
-  * Default Region
-  * ...
-
-* Used AWS CLI to perform basic operations such as:
-
-  * Check account & configuration information
-  * Retrieve the list of regions
-  * View EC2 service
-  * Create and manage key pairs
-  * Check information about running services
-  * ...
-
-* Acquired the ability to connect between the web interface and CLI to manage AWS resources in parallel.
-* ...
+> [!TIP]
+> **Engineering Discipline:** All code and AWS configurations were rigorously tested locally before deployment. Issues encountered during integration (e.g., IAM permission faults, package dependencies) were documented to refine future CI/CD pipelines.

@@ -5,40 +5,28 @@ weight: 7
 chapter: false
 pre: " <b> 7. </b> "
 ---
-{{% notice warning %}}
-⚠️ **Lưu ý:** Các thông tin dưới đây chỉ nhằm mục đích tham khảo, vui lòng **không sao chép nguyên văn** cho bài báo cáo của bạn kể cả warning này.
-{{% /notice %}}
-
 >Tại đây bạn có thể tự do đóng góp ý kiến cá nhân về những trải nghiệm khi tham gia chương trình First Cloud AI Journey, giúp team FCAJ cải thiện những vấn đề còn thiếu sót dựa trên các hạng mục sau:
 
 ### Đánh giá chung
 
-**1. Môi trường làm việc**  
-Môi trường làm việc rất thân thiện và cởi mở. Các thành viên trong FCAJ luôn sẵn sàng hỗ trợ khi mình gặp khó khăn, kể cả ngoài giờ làm việc. Không gian làm việc gọn gàng, thoải mái, giúp mình tập trung tốt hơn. Tuy nhiên, mình nghĩ có thể bổ sung thêm một số buổi giao lưu hoặc team bonding để mọi người hiểu nhau hơn.
+**1. Môi trường học tập & Làm việc**  
+Chương trình First Cloud AI Journey (FCAJ) mang lại một môi trường học tập thực tế và đầy truyền cảm hứng. Anh/Chị Mentor và các bạn trong bootcamp luôn nhiệt tình hỗ trợ, chia sẻ chuyên sâu về kiến trúc đám mây AWS, các mô hình serverless và thực hành Generative AI tiên tiến.
 
-**2. Sự hỗ trợ của mentor / team admin**  
-Mentor hướng dẫn rất chi tiết, giải thích rõ ràng khi mình chưa hiểu và luôn khuyến khích mình đặt câu hỏi. Team admin hỗ trợ các thủ tục, tài liệu và tạo điều kiện để mình làm việc thuận lợi. Mình đánh giá cao việc mentor cho phép mình thử và tự xử lý vấn đề thay vì chỉ đưa đáp án.
+**2. Sự hỗ trợ từ Mentor & Team Admin**  
+Các Mentor đã đồng hành và hướng dẫn kỹ thuật chi tiết cho em trong suốt quá trình thiết kế và triển khai dự án **Pedix**. Đội ngũ giảng viên luôn khuyến khích tinh thần tự nghiên cứu - định hướng giải quyết các bài toán hóc chuẩn DevSecOps như phân quyền AWS IAM, quản lý quota Bedrock inference và cấu hình VPC Link V2 thay vì chỉ đưa ra đáp án sẵn.
 
-**3. Sự phù hợp giữa công việc và chuyên ngành học**  
-Công việc mình được giao phù hợp với kiến thức mình đã học ở trường, đồng thời mở rộng thêm những mảng mới mà mình chưa từng được tiếp cận. Nhờ vậy, mình vừa củng cố kiến thức nền tảng, vừa học thêm kỹ năng thực tế.
+**3. Sự phù hợp với chuyên ngành học**  
+Là sinh viên chuyên ngành Khoa học Máy tính - Trí tuệ Nhân tạo tại Trường Đại học Swinburne, chương trình bootcamp hoàn toàn khớp với định hướng nghề nghiệp của em. Bootcamp đã kết nối hoàn hảo giữa lý thuyết Machine Learning ở trường với kỹ thuật Cloud AI Kỹ nghệ thực tế (RAG, Vector Database, Model Serving, DevSecOps).
 
-**4. Cơ hội học hỏi & phát triển kỹ năng**  
-Trong quá trình thực tập, mình học được nhiều kỹ năng mới như sử dụng công cụ quản lý dự án, kỹ năng làm việc nhóm, và cả cách giao tiếp chuyên nghiệp trong môi trường công ty. Mentor cũng chia sẻ nhiều kinh nghiệm thực tế giúp mình định hướng tốt hơn cho sự nghiệp.
+**4. Cơ hội học hỏi & Phát triển kỹ năng**  
+Qua kỳ thực tập, em đã làm chủ thành thạo 12 dịch vụ AWS Cloud (EC2, Bedrock, Qdrant, DynamoDB, API Gateway, CloudFront, Cognito, ALB, S3, CloudWatch, Lambda, Budgets) cùng các công nghệ hiện đại như FastAPI, PyTorch, React, Docker và kiến trúc SSE Streaming.
 
-**5. Văn hóa & tinh thần đồng đội**  
-Văn hóa công ty rất tích cực: mọi người tôn trọng lẫn nhau, làm việc nghiêm túc nhưng vẫn vui vẻ. Khi có dự án gấp, mọi người cùng nhau cố gắng, hỗ trợ không phân biệt vị trí. Điều này giúp mình cảm thấy mình là một phần của tập thể, dù chỉ là thực tập sinh.
+**5. Văn hóa & Tinh thần cộng đồng**  
+Cộng đồng AWS Study Group và FCAJ có văn hóa chia sẻ tri thức rất tích cực, nghiêm túc trong công việc nhưng luôn vui vẻ, tạo điều kiện tốt nhất cho thực tập sinh phát triển.
 
-**6. Chính sách / phúc lợi cho thực tập sinh**  
-Công ty có hỗ trợ phụ cấp thực tập và tạo điều kiện về thời gian linh hoạt khi cần thiết. Ngoài ra, việc được tham gia các buổi đào tạo nội bộ là một điểm cộng lớn.
+---
 
+### Đúc kết & Đề xuất
 
-### Một số câu hỏi khác
-- Điều bạn **hài lòng nhất** trong thời gian thực tập?  
-- Điều bạn nghĩ công ty **cần cải thiện** cho các thực tập sinh sau?  
-- Nếu giới thiệu cho bạn bè, bạn có **khuyên họ thực tập ở đây không**? Vì sao?  
-
-
-### Đề xuất & mong muốn
-- Bạn có đề xuất gì để cải thiện trải nghiệm trong kỳ thực tập?  
-- Bạn có muốn tiếp tục chương trình này trong tương lai?
-- Góp ý khác (tự do chia sẻ):
+- **Điều hài lòng nhất:** Đã triển khai thành công hệ thống **Pedix** Level 4 Agentic RAG chạy thực tế trên hạ tầng AWS với đầy đủ luồng SSE streaming vết suy luận và tối ưu chi phí (~$72.7/tháng).
+- **Khuyên dùng:** Em rất khuyến khích các bạn sinh viên đam mê Cloud & AI đăng ký tham gia chương trình First Cloud AI Journey để trải nghiệm môi trường thực tế chất lượng cao này.

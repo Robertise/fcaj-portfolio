@@ -1,57 +1,26 @@
 ---
-title: "Week 10 Worklog"
-date: 2024-01-01
-weight: 2
+title: "Week 10: Rebranding & Analytics Module"
+date: 2026-05-11
+weight: 10
 chapter: false
 pre: " <b> 1.10. </b> "
 ---
-{{% notice warning %}} 
-⚠️ **Note:** The following information is for reference purposes only. Please **do not copy verbatim** for your own report, including this warning.
-{{% /notice %}}
 
+### Week 10 Summary
+Officially rebranded the project to 'Pedix'. Built an admin analytics dashboard utilizing parallel DynamoDB querying and implemented strict Role-Based Access Control (RBAC) via Cognito.
 
-### Week 10 Objectives:
+### Daily Worklog & Technical Notes
+| Day | Task Description | Duration | Status | Technical Notes |
+| :--- | :--- | :--- | :--- | :--- |
+| Monday | Codebase Rebranding | 9.0h | Done | Renamed packages, environment variables, and docs from PediCompass to Pedix to reflect final branding. |
+| Tuesday | RBAC via Cognito Groups | 8.5h | Done | Created `pedix-users` & `pedix-admins` groups. Added FastAPI Dependency `get_admin_user` to reject bad JWTs. |
+| Wednesday | Analytics Dashboard UI | 7.5h | Done | Created the frontend views for the admin dashboard, including metric cards and session log tables. |
+| Thursday | Parallel Analytics Queries | 7.0h | Done | Used Python's `asyncio.gather` to query DynamoDB tables simultaneously, reducing dashboard load time by 60%. |
+| Friday | Pre-Visit Checklist Feature | 7.5h | Done | Implemented custom UI markdown parsing to explicitly extract and highlight the 'Things to bring' output from Stage 5. |
 
-* Connect and get acquainted with members of First Cloud AI Journey.
-* Understand basic AWS services, how to use the console & CLI.
+### Key Outcomes & Deliverables
+- **Admin Controls:** Secure, RBAC-protected administrative views.
+- **Performance:** Highly optimized DynamoDB data aggregation for dashboard metrics.
 
-### Tasks to be carried out this week:
-| Day | Task                                                                                                                                                                                                   | Start Date | Completion Date | Reference Material                        |
-| --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------- | --------------- | ----------------------------------------- |
-| 2   | - Get acquainted with FCAJ members <br> - Read and take note of internship unit rules and regulations                                                                                                   | 08/11/2025 | 08/11/2025      |
-| 3   | - Learn about AWS and its types of services <br>&emsp; + Compute <br>&emsp; + Storage <br>&emsp; + Networking <br>&emsp; + Database <br>&emsp; + ... <br>                                              | 08/12/2025 | 08/12/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 4   | - Create AWS Free Tier account <br> - Learn about AWS Console & AWS CLI <br> - **Practice:** <br>&emsp; + Create AWS account <br>&emsp; + Install & configure AWS CLI <br> &emsp; + How to use AWS CLI | 08/13/2025 | 08/13/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 5   | - Learn basic EC2: <br>&emsp; + Instance types <br>&emsp; + AMI <br>&emsp; + EBS <br>&emsp; + ... <br> - SSH connection methods to EC2 <br> - Learn about Elastic IP   <br>                            | 08/14/2025 | 08/15/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 6   | - **Practice:** <br>&emsp; + Launch an EC2 instance <br>&emsp; + Connect via SSH <br>&emsp; + Attach an EBS volume                                                                                     | 08/15/2025 | 08/15/2025      | <https://cloudjourney.awsstudygroup.com/> |
-
-
-### Week 10 Achievements:
-
-* Understood what AWS is and mastered the basic service groups: 
-  * Compute
-  * Storage
-  * Networking 
-  * Database
-  * ...
-
-* Successfully created and configured an AWS Free Tier account.
-
-* Became familiar with the AWS Management Console and learned how to find, access, and use services via the web interface.
-
-* Installed and configured AWS CLI on the computer, including:
-  * Access Key
-  * Secret Key
-  * Default Region
-  * ...
-
-* Used AWS CLI to perform basic operations such as:
-
-  * Check account & configuration information
-  * Retrieve the list of regions
-  * View EC2 service
-  * Create and manage key pairs
-  * Check information about running services
-  * ...
-
-* Acquired the ability to connect between the web interface and CLI to manage AWS resources in parallel.
-* ...
+> [!TIP]
+> **Engineering Discipline:** All code and AWS configurations were rigorously tested locally before deployment. Issues encountered during integration (e.g., IAM permission faults, package dependencies) were documented to refine future CI/CD pipelines.

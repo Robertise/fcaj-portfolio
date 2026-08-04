@@ -5,27 +5,34 @@ weight: 1
 chapter: false
 pre: " <b> 3.1. </b> "
 ---
-{{% notice warning %}}
-⚠️ **Lưu ý:** Các thông tin dưới đây chỉ nhằm mục đích tham khảo, vui lòng **không sao chép nguyên văn** cho bài báo cáo của bạn kể cả warning này.
-{{% /notice %}}
 
-# SESSION POLICIES TRONG AMAZON EKS POD IDENTITY
+# LEVEL 4 AGENTIC RAG VỚI AMAZON BEDROCK & CLAUDE SONNET
 
-Amazon EKS Pod Identity vừa bổ sung tính năng session policies, cho phép bạn thu hẹp quyền IAM một cách linh hoạt và chính xác cho từng pod mà không cần tạo thêm nhiều IAM roles riêng biệt. Đây là bước tiến quan trọng giúp áp dụng nguyên tắc least privilege hiệu quả hơn trong môi trường Kubernetes quy mô lớn.
+### Tóm tắt điều hành
+Retrieval-Augmented Generation (RAG) đã trở thành công nghệ cốt lõi cho các ứng dụng AI doanh nghiệp. Tuy nhiên, trong lĩnh vực đòi hỏi độ chính xác tuyệt đối như y tế nhi khoa, các RAG pipeline thông thường dễ gặp lỗi ảo giác (hallucination) và thiếu tính minh bạch lâm sàng. Bài viết này phân tích cách xây dựng kiến trúc **Agentic RAG Level 4 Phân tầng Độ tuổi** ứng dụng **Amazon Bedrock (Claude Sonnet & Haiku)** cho hệ thống **Pedix**.
 
-Các điểm chính cần nắm:
+---
 
-* Session policy là một IAM policy inline được chỉ định khi tạo hoặc cập nhật Pod Identity association.
-* Quyền hiệu quả = intersection (giao) giữa permissions của IAM role và session policy → session policy chỉ có thể thu hẹp, không thể mở rộng quyền.
-* Giúp tránh tình trạng over-permissioning khi reuse chung một IAM role cho nhiều workloads có nhu cầu khác nhau.
-* Hỗ trợ cả same-account và cross-account (qua IAM role chaining).
-* Giảm đáng kể số lượng IAM roles cần quản lý, tránh chạm giới hạn quota IAM trong cluster lớn.
-* Cấu hình dễ dàng qua AWS Management Console, AWS CLI hoặc AWS SDK khi tạo association giữa Kubernetes ServiceAccount và IAM role.
+### Các Trụ cột Kiến trúc Cốt lõi
 
-Tính năng này đặc biệt hữu ích khi bạn có nhiều ứng dụng chạy trên cùng một IAM role nhưng cần giới hạn quyền khác nhau (ví dụ: một pod chỉ đọc S3 bucket cụ thể, pod khác chỉ gọi một số API nhất định).
+#### 1. Màng Lọc An Toàn Định Tính (Stage 0)
+Trước khi gọi các mô hình LLM đắt đỏ, chuỗi truy vấn được đánh giá qua bộ phân tích regex siêu tốc (<10ms) kết hợp kiểm tra ngữ cảnh qua Claude Haiku. Nếu phát hiện các dấu hiệu cấp cứu đe dọa tính mạng ở trẻ (như tím tái, lơ mơ, sốt ở trẻ dưới 90 ngày tuổi), hệ thống lập tức chuyển hướng sang hướng dẫn cấp cứu mà không cần lặp LLM.
 
-...Hình ảnh...
+#### 2. Lọc Metadata Metadata Pre-filtering Phân tầng Độ tuổi (Stage 1 & 2)
+Độ tuổi là biến số lâm sàng quan trọng nhất trong chăm sóc nhi khoa. Pedix tự động tính tuổi chính xác của trẻ theo ngày và ánh xạ vào các nhóm tuổi (`newborn`, `young_infant`, `infant`, `toddler`, `preschool`). Truy vấn vector trên Qdrant bắt buộc thi hành bộ lọc payload theo `age_group`, ngăn chặn các đoạn tri thức của người lớn làm nhiễu ngữ cảnh.
 
-...Link...
+#### 3. Suy luận Lâm sàng Cấu trúc qua Bedrock Tool-Use (Stage 3)
+Tận dụng tính năng `tool_use` của Claude Sonnet trên Amazon Bedrock, Agent đánh giá bằng chứng y khoa dựa trên khung phân loại khẩn cấp **Emergency Severity Index (ESI v4)**. Kết quả trả về là JSON cấu trúc bao gồm:
+- Mức độ khẩn cấp (Emergency, Urgent, Soon, Routine)
+- Lý giải lâm sàng
+- Các bước lộ trình chăm sóc (Care Pathway)
+- Danh mục kiểm tra trước khi đi khám
 
-...Hướng dẫn...
+#### 4. Vòng lặp Reflection & Kiểm thử Độc lập (Stage 4 & 5)
+Stage 4 kiểm tra tính đầy đủ và nguồn trích dẫn của kết quả. Nếu thiếu thông tin quan trọng, orchestrator sẽ kích hoạt tối đa 2 vòng lặp tìm kiếm bổ sung trước khi sinh câu trả lời hoàn chỉnh, an tâm cho phụ huynh.
+
+---
+
+### Giá trị Kỹ thuật & Kinh doanh
+- **Minh bạch Hoàn toàn:** Hiển thị vết suy luận (Reasoning Trace) từng bước giúp phụ huynh tin tưởng tuyệt đối.
+- **Tối ưu Chi phí:** Phối hợp linh hoạt giữa Haiku cho tác vụ nhẹ và Sonnet cho suy luận phức tạp giúp chi phí mỗi truy vấn chỉ dưới **$0.015 / request**.

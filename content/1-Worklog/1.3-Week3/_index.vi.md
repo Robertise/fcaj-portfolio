@@ -1,59 +1,26 @@
 ---
-title: "Worklog Tuần 3"
-date: 2024-01-01
-weight: 1
+title: "Tuần 3: Tổng hợp Tri thức & Phác thảo Kiến trúc"
+date: 2026-05-11
+weight: 3
 chapter: false
 pre: " <b> 1.3. </b> "
 ---
-{{% notice warning %}}
-⚠️ **Lưu ý:** Các thông tin dưới đây chỉ nhằm mục đích tham khảo, vui lòng **không sao chép nguyên văn** cho bài báo cáo của bạn kể cả warning này.
-{{% /notice %}}
 
+### Tóm tắt Tuần 3
+Tập trung vào khâu chuẩn bị dữ liệu và thiết kế hệ thống. Trích xuất và làm sạch hàng nghìn dòng hướng dẫn lâm sàng từ file PDF của WHO bằng công cụ MinerU. Phác thảo sơ đồ kiến trúc đám mây sơ bộ.
 
-### Mục tiêu tuần 3:
+### Nhật ký Làm việc & Ghi chú Kỹ thuật
+| Ngày | Mô tả Công việc | Thời lượng | Trạng thái | Ghi chú Kỹ thuật |
+| :--- | :--- | :--- | :--- | :--- |
+| Thứ Hai | Trích xuất Hướng dẫn WHO | 8.5h | Hoàn thành | Trích xuất text từ 'Pocket book of hospital care for children' bằng MinerU. Xử lý các lỗi nhận diện OCR phức tạp. |
+| Thứ Ba | Cấu trúc và Làm sạch Dữ liệu | 6.5h | Hoàn thành | Định dạng lại thủ công các bảng markdown, danh sách và tiêu đề để đảm bảo chất lượng văn bản cao nhất cho Vector DB. |
+| Thứ Tư | Chiến lược Semantic Chunking | 7.0h | Hoàn thành | Nghiên cứu Contextual Retrieval. Thiết kế bộ chia chunk dựa trên Markdown (300-500 token), overlap 50 token. |
+| Thứ Năm | Phác thảo Kiến trúc Hệ thống | 8.0h | Hoàn thành | Lập bản đồ dịch vụ AWS: API Gateway, EC2 (Backend/Qdrant), Bedrock, và DynamoDB (Tối ưu giới hạn Free Tier). |
+| Thứ Sáu | Thiết kế Mạng Zero-Trust | 7.5h | Hoàn thành | Lên kế hoạch Security Group Chaining để đảm bảo EC2 backend bị cô lập hoàn toàn khỏi truy cập internet trực tiếp. |
 
-* Kết nối, làm quen với các thành viên trong First Cloud AI Journey.
-* Hiểu dịch vụ AWS cơ bản, cách dùng console & CLI.
+### Kết quả Kỹ thuật Đạt được
+- **Chuẩn bị Dữ liệu:** Chuyển đổi 3 sách PDF y khoa phức tạp thành file Markdown sạch, sẵn sàng chunking.
+- **Tầm nhìn Kiến trúc:** Thiết lập bản thiết kế rõ ràng cho một hệ thống AWS an toàn, chi phí thấp.
 
-### Các công việc cần triển khai trong tuần này:
-| Thứ | Công việc                                                                                                                                                                                   | Ngày bắt đầu | Ngày hoàn thành | Nguồn tài liệu                            |
-| --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ | --------------- | ----------------------------------------- |
-| 2   | - Làm quen với các thành viên FCAJ <br> - Đọc và lưu ý các nội quy, quy định tại đơn vị thực tập                                                                                             | 11/08/2025   | 11/08/2025      |
-| 3   | - Tìm hiểu AWS và các loại dịch vụ <br>&emsp; + Compute <br>&emsp; + Storage <br>&emsp; + Networking <br>&emsp; + Database <br>&emsp; + ... <br>                                            | 12/08/2025   | 12/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 4   | - Tạo AWS Free Tier account <br> - Tìm hiểu AWS Console & AWS CLI <br> - **Thực hành:** <br>&emsp; + Tạo AWS account <br>&emsp; + Cài AWS CLI & cấu hình <br> &emsp; + Cách sử dụng AWS CLI | 13/08/2025   | 13/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 5   | - Tìm hiểu EC2 cơ bản: <br>&emsp; + Instance types <br>&emsp; + AMI <br>&emsp; + EBS <br>&emsp; + ... <br> - Các cách remote SSH vào EC2 <br> - Tìm hiểu Elastic IP   <br>                  | 14/08/2025   | 15/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 6   | - **Thực hành:** <br>&emsp; + Tạo EC2 instance <br>&emsp; + Kết nối SSH <br>&emsp; + Gắn EBS volume                                                                                         | 15/08/2025   | 15/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
-
-
-### Kết quả đạt được tuần 3:
-
-* Hiểu AWS là gì và nắm được các nhóm dịch vụ cơ bản: 
-  * Compute
-  * Storage
-  * Networking 
-  * Database
-  * ...
-
-* Đã tạo và cấu hình AWS Free Tier account thành công.
-
-* Làm quen với AWS Management Console và biết cách tìm, truy cập, sử dụng dịch vụ từ giao diện web.
-
-* Cài đặt và cấu hình AWS CLI trên máy tính bao gồm:
-  * Access Key
-  * Secret Key
-  * Region mặc định
-  * ...
-
-* Sử dụng AWS CLI để thực hiện các thao tác cơ bản như:
-
-  * Kiểm tra thông tin tài khoản & cấu hình
-  * Lấy danh sách region
-  * Xem dịch vụ EC2
-  * Tạo và quản lý key pair
-  * Kiểm tra thông tin dịch vụ đang chạy
-  * ...
-
-* Có khả năng kết nối giữa giao diện web và CLI để quản lý tài nguyên AWS song song.
-* ...
-
-
+> [!TIP]
+> **Kỷ luật Kỹ thuật:** Toàn bộ mã nguồn và cấu hình AWS đều được kiểm thử gắt gao ở local trước khi đẩy lên cloud. Mọi sự cố phát sinh trong quá trình tích hợp (ví dụ: lỗi cấp quyền IAM, xung đột package) đều được ghi chú lại để hoàn thiện các quy trình CI/CD sau này.

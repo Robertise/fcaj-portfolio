@@ -9,23 +9,33 @@ pre: " <b> 3.3. </b> "
 ⚠️ **Note:** The information below is for reference purposes only. Please **do not copy verbatim** for your report, including this warning.
 {{% /notice %}}
 
-# SESSION POLICIES IN AMAZON EKS POD IDENTITY
+# SECURING PRIVATE BACKENDS WITH API GATEWAY VPC LINK V2 & INTERNAL ALB
 
-Amazon EKS Pod Identity has recently added the session policies feature, allowing you to narrow IAM permissions flexibly and precisely for each pod without needing to create many separate IAM roles. This is an important step forward that helps apply the principle of least privilege more effectively in large-scale Kubernetes environments.
+### Architecture Overview
+In cloud application security, backend EC2 instances should never be directly exposed to the public internet with open HTTP ports. This article outlines the DevSecOps architecture implemented for **Pedix**, utilizing **Amazon API Gateway REST API**, **VPC Link V2 (HTTP/REST Private Integration)**, and an **Internal Application Load Balancer (ALB)** to establish a zero-trust network perimeter.
 
-Key points to know:
+---
 
-* A session policy is an inline IAM policy specified when creating or updating a Pod Identity association.
-* Effective permissions = intersection between the IAM role permissions and the session policy → the session policy can only narrow permissions, not expand them.
-* Helps avoid over-permissioning when reusing a single IAM role for multiple workloads with different needs.
-* Supports both same-account and cross-account (via IAM role chaining).
-* Significantly reduces the number of IAM roles that need to be managed, helping avoid hitting IAM quota limits in large clusters.
-* Easily configured through the AWS Management Console, AWS CLI, or AWS SDK when creating an association between a Kubernetes ServiceAccount and an IAM role.
+### Implementation & Traffic Flow
 
-This feature is especially useful when you have many applications running on the same IAM role but need different permission restrictions (for example: one pod only reads a specific S3 bucket, another pod only calls certain APIs).
+#### 1. Public Entry & Rate Limiting
+Client requests hit Amazon API Gateway via HTTPS. API Gateway enforces CORS policies, rate limiting (throttling at 100 requests/sec), and Cognito User Pool JWT token validation.
 
-...Image...
+#### 2. Private Passage via VPC Link V2
+Instead of routing over public IP addresses, API Gateway bridges into the private VPC subnet using **VPC Link V2**. This creates ENIs (Elastic Network Interfaces) directly inside the VPC that tunnel API requests securely.
 
-...Link...
+#### 3. Internal Load Balancing & Security Groups
+The VPC Link forwards traffic to an **Internal Application Load Balancer (ALB)**. The ALB Security Group is restricted to accept traffic *only* from the VPC Link subnet CIDR. In turn, the EC2 instance Security Group accepts incoming HTTP traffic *only* on port 8000 from the Internal ALB Security Group.
 
-...Guide...
+```
+[Client] ---> (CloudFront / HTTPS) ---> [API Gateway] 
+                                             |
+                                     (VPC Link V2)
+                                             |
+                                  [Internal ALB (Port 80)]
+                                             |
+                                  [EC2 FastAPI (Port 8000)]
+```
+
+#### 4. Server-Sent Events (SSE) Streaming Keep-Alive
+Because Bedrock LLM reasoning loops can take 5-15 seconds, default HTTP gateway timeouts (29s) or ALB idle timeouts can trigger dropped connections. The FastAPI backend sends periodic heartbeat frames (`: ping\n\n`) every 5 seconds to keep the VPC Link stream open and fluid for live frontend trace rendering.

@@ -6,9 +6,6 @@ chapter: false
 pre: " <b> 4.1. </b> "
 ---
 
-{{% notice warning %}}
-⚠️ **Note:** The information below is for reference purposes only. Please **do not copy it verbatim** into your report, including this warning.
-{{% /notice %}}
 
 # Summary Report: “GenAI-powered App-DB Modernization workshop”
 
@@ -35,7 +32,7 @@ pre: " <b> 4.1. </b> "
 
 #### Transitioning to modern application architecture – Microservices
 
-Migrating to a modular system — each function is an **independent service** communicating via **events**, built on three core pillars:
+Migrating to a modular system - each function is an **independent service** communicating via **events**, built on three core pillars:
 
 - **Queue Management**: Handle asynchronous tasks  
 - **Caching Strategy**: Optimize performance  
@@ -82,7 +79,7 @@ Migrating to a modular system — each function is an **independent service** co
 
 #### Modernization Strategy
 
-- **Phased approach**: No rushing — follow a clear roadmap  
+- **Phased approach**: No rushing - follow a clear roadmap  
 - **7Rs framework**: Multiple modernization paths depending on the application  
 - **ROI measurement**: Cost reduction + business agility  
 

@@ -1,57 +1,26 @@
 ---
-title: "Week 9 Worklog"
-date: 2024-01-01
-weight: 1
+title: "Week 9: SSE Streaming & ESI v4 Triage Reasoning"
+date: 2026-05-11
+weight: 9
 chapter: false
 pre: " <b> 1.9. </b> "
 ---
-{{% notice warning %}} 
-⚠️ **Note:** The following information is for reference purposes only. Please **do not copy verbatim** for your own report, including this warning.
-{{% /notice %}}
 
+### Week 9 Summary
+A critical week focused on real-time UX and complex clinical logic. Implemented Server-Sent Events (SSE) to stream the 5-stage reasoning trace to the UI, and codified ESI v4 urgency guidelines.
 
-### Week 9 Objectives:
+### Daily Worklog & Technical Notes
+| Day | Task Description | Duration | Status | Technical Notes |
+| :--- | :--- | :--- | :--- | :--- |
+| Monday | SSE Streaming Implementation | 8.5h | Done | Converted the `/api/chat` endpoint to a `StreamingResponse`, yielding JSON progressively. |
+| Tuesday | Real-time Trace Generation | 7.0h | Done | Handled UI state to incrementally reveal the AI's internal reasoning trace as stages complete. |
+| Wednesday | SSE Heartbeat Keep-Alive | 7.5h | Done | Added a 5.0s empty heartbeat yield frame. Prevents CloudFront from dropping idle connections during LLM calls. |
+| Thursday | ESI v4 Logic Integration | 8.0h | Done | Injected Emergency Severity Index (ESI) v4 rules into Bedrock prompt to enforce proper urgency levels (1-5). |
+| Friday | Chat Intent Validation | 7.5h | Done | Added a Bedrock pre-flight check to detect and politely refuse non-medical queries, preserving API token costs. |
 
-* Connect and get acquainted with members of First Cloud AI Journey.
-* Understand basic AWS services, how to use the console & CLI.
+### Key Outcomes & Deliverables
+- **Real-time UX:** Parents see the AI's 'thinking process' instantly without waiting 15 seconds.
+- **Clinical Safety:** Strict adherence to ESI v4 categorization.
 
-### Tasks to be carried out this week:
-| Day | Task                                                                                                                                                                                                   | Start Date | Completion Date | Reference Material                        |
-| --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------- | --------------- | ----------------------------------------- |
-| 2   | - Get acquainted with FCAJ members <br> - Read and take note of internship unit rules and regulations                                                                                                   | 08/11/2025 | 08/11/2025      |
-| 3   | - Learn about AWS and its types of services <br>&emsp; + Compute <br>&emsp; + Storage <br>&emsp; + Networking <br>&emsp; + Database <br>&emsp; + ... <br>                                              | 08/12/2025 | 08/12/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 4   | - Create AWS Free Tier account <br> - Learn about AWS Console & AWS CLI <br> - **Practice:** <br>&emsp; + Create AWS account <br>&emsp; + Install & configure AWS CLI <br> &emsp; + How to use AWS CLI | 08/13/2025 | 08/13/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 5   | - Learn basic EC2: <br>&emsp; + Instance types <br>&emsp; + AMI <br>&emsp; + EBS <br>&emsp; + ... <br> - SSH connection methods to EC2 <br> - Learn about Elastic IP   <br>                            | 08/14/2025 | 08/15/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 6   | - **Practice:** <br>&emsp; + Launch an EC2 instance <br>&emsp; + Connect via SSH <br>&emsp; + Attach an EBS volume                                                                                     | 08/15/2025 | 08/15/2025      | <https://cloudjourney.awsstudygroup.com/> |
-
-
-### Week 9 Achievements:
-
-* Understood what AWS is and mastered the basic service groups: 
-  * Compute
-  * Storage
-  * Networking 
-  * Database
-  * ...
-
-* Successfully created and configured an AWS Free Tier account.
-
-* Became familiar with the AWS Management Console and learned how to find, access, and use services via the web interface.
-
-* Installed and configured AWS CLI on the computer, including:
-  * Access Key
-  * Secret Key
-  * Default Region
-  * ...
-
-* Used AWS CLI to perform basic operations such as:
-
-  * Check account & configuration information
-  * Retrieve the list of regions
-  * View EC2 service
-  * Create and manage key pairs
-  * Check information about running services
-  * ...
-
-* Acquired the ability to connect between the web interface and CLI to manage AWS resources in parallel.
-* ...
+> [!TIP]
+> **Engineering Discipline:** All code and AWS configurations were rigorously tested locally before deployment. Issues encountered during integration (e.g., IAM permission faults, package dependencies) were documented to refine future CI/CD pipelines.

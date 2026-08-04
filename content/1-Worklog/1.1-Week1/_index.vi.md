@@ -1,59 +1,26 @@
 ---
-title: "Worklog Tuần 1"
-date: 2024-01-01
+title: "Tuần 1: Nền tảng & Khởi tạo AWS Cloud"
+date: 2026-05-11
 weight: 1
 chapter: false
 pre: " <b> 1.1. </b> "
 ---
-{{% notice warning %}}
-⚠️ **Lưu ý:** Các thông tin dưới đây chỉ nhằm mục đích tham khảo, vui lòng **không sao chép nguyên văn** cho bài báo cáo của bạn kể cả warning này.
-{{% /notice %}}
 
+### Tóm tắt Tuần 1
+Tuần này tập trung vào việc trau dồi kiến thức nền tảng AWS Cloud thông qua AWS Educate, thiết lập tài khoản chính với cảnh báo thanh toán và lên ý tưởng sơ bộ cho dự án. Tôi đã tìm hiểu về các dịch vụ điện toán, lưu trữ và mạng cốt lõi.
 
-### Mục tiêu tuần 1:
+### Nhật ký Làm việc & Ghi chú Kỹ thuật
+| Ngày | Mô tả Công việc | Thời lượng | Trạng thái | Ghi chú Kỹ thuật |
+| :--- | :--- | :--- | :--- | :--- |
+| Thứ Hai | Tạo tài khoản AWS & Cấu hình Billing | 7.0h | Hoàn thành | Thiết lập tài khoản AWS Free Tier. Cài đặt cảnh báo AWS Budgets ở mức $10 để kiểm soát chi phí. |
+| Thứ Ba | AWS Educate: Các Dịch vụ Lõi | 7.5h | Hoàn thành | Hoàn thành các module EC2, S3, VPC và IAM. Nghiên cứu nguyên tắc quyền hạn tối thiểu (Least Privilege). |
+| Thứ Tư | Nghiên cứu Thị trường Generative AI y tế | 8.0h | Hoàn thành | Phân tích xu hướng cộng đồng về ứng dụng AI trong y tế và xem xét các bộ dữ liệu tiềm năng. |
+| Thứ Năm | Thiết lập Git Repository & Worklog | 8.0h | Hoàn thành | Khởi tạo local Git repository và các template theo dõi để ghi nhận chi tiết tiến độ dự án. |
+| Thứ Sáu | Lên ý tưởng sơ bộ & Kế hoạch Kiến trúc | 7.0h | Hoàn thành | Phác thảo ý tưởng về trợ lý y tế số, vạch ra các dịch vụ cloud cần thiết cho dự án. |
 
-* Kết nối, làm quen với các thành viên trong First Cloud AI Journey.
-* Hiểu dịch vụ AWS cơ bản, cách dùng console & CLI.
+### Kết quả Kỹ thuật Đạt được
+- **Thành thạo AWS:** Làm quen với giao diện AWS Console và các công cụ quản lý chi phí.
+- **Định hướng Dự án:** Thống nhất sử dụng công nghệ Generative AI cho lĩnh vực y tế.
 
-### Các công việc cần triển khai trong tuần này:
-| Thứ | Công việc                                                                                                                                                                                   | Ngày bắt đầu | Ngày hoàn thành | Nguồn tài liệu                            |
-| --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ | --------------- | ----------------------------------------- |
-| 2   | - Làm quen với các thành viên FCAJ <br> - Đọc và lưu ý các nội quy, quy định tại đơn vị thực tập                                                                                             | 11/08/2025   | 11/08/2025      |
-| 3   | - Tìm hiểu AWS và các loại dịch vụ <br>&emsp; + Compute <br>&emsp; + Storage <br>&emsp; + Networking <br>&emsp; + Database <br>&emsp; + ... <br>                                            | 12/08/2025   | 12/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 4   | - Tạo AWS Free Tier account <br> - Tìm hiểu AWS Console & AWS CLI <br> - **Thực hành:** <br>&emsp; + Tạo AWS account <br>&emsp; + Cài AWS CLI & cấu hình <br> &emsp; + Cách sử dụng AWS CLI | 13/08/2025   | 13/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 5   | - Tìm hiểu EC2 cơ bản: <br>&emsp; + Instance types <br>&emsp; + AMI <br>&emsp; + EBS <br>&emsp; + ... <br> - Các cách remote SSH vào EC2 <br> - Tìm hiểu Elastic IP   <br>                  | 14/08/2025   | 15/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 6   | - **Thực hành:** <br>&emsp; + Tạo EC2 instance <br>&emsp; + Kết nối SSH <br>&emsp; + Gắn EBS volume                                                                                         | 15/08/2025   | 15/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
-
-
-### Kết quả đạt được tuần 1:
-
-* Hiểu AWS là gì và nắm được các nhóm dịch vụ cơ bản: 
-  * Compute
-  * Storage
-  * Networking 
-  * Database
-  * ...
-
-* Đã tạo và cấu hình AWS Free Tier account thành công.
-
-* Làm quen với AWS Management Console và biết cách tìm, truy cập, sử dụng dịch vụ từ giao diện web.
-
-* Cài đặt và cấu hình AWS CLI trên máy tính bao gồm:
-  * Access Key
-  * Secret Key
-  * Region mặc định
-  * ...
-
-* Sử dụng AWS CLI để thực hiện các thao tác cơ bản như:
-
-  * Kiểm tra thông tin tài khoản & cấu hình
-  * Lấy danh sách region
-  * Xem dịch vụ EC2
-  * Tạo và quản lý key pair
-  * Kiểm tra thông tin dịch vụ đang chạy
-  * ...
-
-* Có khả năng kết nối giữa giao diện web và CLI để quản lý tài nguyên AWS song song.
-* ...
-
-
+> [!TIP]
+> **Kỷ luật Kỹ thuật:** Toàn bộ mã nguồn và cấu hình AWS đều được kiểm thử gắt gao ở local trước khi đẩy lên cloud. Mọi sự cố phát sinh trong quá trình tích hợp (ví dụ: lỗi cấp quyền IAM, xung đột package) đều được ghi chú lại để hoàn thiện các quy trình CI/CD sau này.

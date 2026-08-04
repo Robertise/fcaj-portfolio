@@ -5,111 +5,75 @@ weight: 2
 chapter: false
 pre: " <b> 2. </b> "
 ---
-{{% notice warning %}}
-⚠️ **Note:** The information below is for reference purposes only. Please **do not copy verbatim** for your report, including this warning.
-{{% /notice %}}
+In this section, we present the detailed technical proposal and deployment execution for the Pedix workshop.
 
-In this section, you need to summarize the contents of the workshop that you **plan** to conduct.
-
-# IoT Weather Platform for Lab Research
-## A Unified AWS Serverless Solution for Real-Time Weather Monitoring
+# Pedix - Agentic RAG-Powered Pediatric Health Navigator
+## An Age-Stratified Level 4 Agentic System Deployed on AWS
 
 ### 1. Executive Summary
-The IoT Weather Platform is designed for the ITea Lab team in Ho Chi Minh City to enhance weather data collection and analysis. It supports up to 5 weather stations, with potential scalability to 10-15, utilizing Raspberry Pi edge devices with ESP32 sensors to transmit data via MQTT. The platform leverages AWS Serverless services to deliver real-time monitoring, predictive analytics, and cost efficiency, with access restricted to 5 lab members via Amazon Cognito.
+**Pedix** is a full-stack, cloud-deployed AI health assistant web application designed specifically for parents and caregivers navigating pediatric health symptoms for children aged **0 to 5 years (under-5)**. Unlike generic symptom checkers or chatbots, Pedix executes an age-stratified, multi-stage Level 4 Agentic Retrieval-Augmented Generation (RAG) reasoning loop powered by Amazon Bedrock (Claude Haiku), Qdrant vector search, and 12 AWS cloud services. It provides evidence-backed care pathway recommendations, urgency classification (based on ESI v4), and pre-visit checklists derived directly from WHO and NICE pediatric guidelines. The system is deployed completely on the AWS cloud in `ap-southeast-1` optimizing for 100% Free Tier limit maximization with a total operating cost of just ~$72.7/month.
 
 ### 2. Problem Statement
-### What’s the Problem?
-Current weather stations require manual data collection, becoming unmanageable with multiple units. There is no centralized system for real-time data or analytics, and third-party platforms are costly and overly complex.
+#### What’s the Problem?
+Childhood symptoms (e.g. fever or respiratory distress) require dramatically different clinical responses depending on exact age: a 38°C fever in a 2-week-old newborn is a medical emergency requiring immediate pediatric ER evaluation, whereas the same temperature in a 3-year-old toddler is often manageable at home with monitoring. Existing symptom checkers often rely on adult-adapted models or static pipelines that fail to apply age-stratified clinical thresholds, creating either dangerous under-triage or unnecessary emergency room visits.
 
-### The Solution
-The platform uses AWS IoT Core to ingest MQTT data, AWS Lambda and API Gateway for processing, Amazon S3 for storage (including a data lake), and AWS Glue Crawlers and ETL jobs to extract, transform, and load data from the S3 data lake to another S3 bucket for analysis. AWS Amplify with Next.js provides the web interface, and Amazon Cognito ensures secure access. Similar to Thingsboard and CoreIoT, users can register new devices and manage connections, though this platform operates on a smaller scale and is designed for private use. Key features include real-time dashboards, trend analysis, and low operational costs.
+#### The Solution
+Pedix introduces an **Age-Stratified Level 4 Agentic RAG** architecture. Before invoking the LLM, a deterministic pediatric safety screen (Stage 0) scans for life-threatening red flags in <10ms. Once safe, the system resolves the child's age first (Stage 1), applies strict `age_group` pre-filtering on the Qdrant vector database (Stage 2), reasons over retrieved evidence using the ESI v4 framework (Stage 3), self-evaluates completeness (Stage 4 reflection loop), and generates warm, parent-facing recommendations with cited sources (Stage 5).
 
-### Benefits and Return on Investment
-The solution establishes a foundational resource for lab members to develop a larger IoT platform, serving as a study resource, and provides a data foundation for AI enthusiasts for model training or analysis. It reduces manual reporting for each station via a centralized platform, simplifying management and maintenance, and improves data reliability. Monthly costs are $0.66 USD per the AWS Pricing Calculator, with a 12-month total of $7.92 USD. All IoT equipment costs are covered by the existing weather station setup, eliminating additional development expenses. The break-even period of 6-12 months is achieved through significant time savings from reduced manual work.
+#### Benefits and Return on Investment
+- **Clinical Safety & Transparency:** Visible 5-stage reasoning trace and cited WHO/NICE guideline chunks prevent black-box AI recommendations.
+- **Cost Governance on AWS:** Optimised production deployment using EC2 (t3.micro), Qdrant Docker container, DynamoDB On-Demand, and API Gateway VPC Link costing **~$72.7/month**, well within budget limits.
+- **Scalability & Maintenance:** Dynamic knowledge base indexing allows administrators to upload updated pediatric guidelines without redeploying backend infrastructure.
 
-### 3. Solution Architecture
-The platform employs a serverless AWS architecture to manage data from 5 Raspberry Pi-based stations, scalable to 15. Data is ingested via AWS IoT Core, stored in an S3 data lake, and processed by AWS Glue Crawlers and ETL jobs to transform and load it into another S3 bucket for analysis. Lambda and API Gateway handle additional processing, while Amplify with Next.js hosts the dashboard, secured by Cognito. The architecture is detailed below:
+### 3. Comprehensive Solution Architecture
+Pedix utilizes a strict Zero-Trust production AWS architecture hosted in `ap-southeast-1` (Singapore):
 
-![IoT Weather Station Architecture](/images/2-Proposal/edge_architecture.jpeg)
+![Pedix AWS Cloud Architecture](/images/2-Proposal/pedix_architecture.png)
 
-![IoT Weather Platform Architecture](/images/2-Proposal/platform_architecture.jpeg)
+#### Zero-Trust Network Isolation & Core Services
+- **Amazon S3 + CloudFront:** Hosts the React (Vite) frontend globally via HTTPS. The S3 bucket (`pedix-frontend-prod`) is strictly private (Block All Public Access) and served via CloudFront Origin Access Control (OAC).
+- **Amazon API Gateway (Regional REST):** Validates tokens via Cognito JWT Authorizer, tunneling into the VPC via VPC Link V2 (`fzvy02`). It natively supports Server-Sent Events (SSE) streaming (`/api/chat/stream`) for real-time trace generation.
+- **Application Load Balancer (Internal ALB):** Configured as an internal-only scheme (`pedix-internal-alb`), it bridges the public API Gateway to the private EC2 backend.
+- **Amazon EC2 (t3.micro + 2GB Swap):** Hosts the FastAPI backend server on a private IP (`172.31.42.140`). Security group chaining (`pedix-ec2-sg`) ensures it only accepts inbound traffic from the ALB (`pedix-alb-sg`), completely blocking direct internet access on port 8000.
+- **Qdrant Vector DB (Docker v1.10.1):** Stores 384-dimensional dense vectors mapped to an EBS gp3 volume. It is strictly bound to the localhost interface (`127.0.0.1:6333`) to prevent external network exposure.
+- **Amazon Bedrock (Claude Haiku):** Powers all structured query analysis, clinical reasoning, reflection, and response generation via `global.anthropic.claude-haiku-4-5-20251001-v1:0`.
+- **Amazon DynamoDB:** Pay-per-request tables store sessions (`pedix_sessions`), child profiles (`pedix_profiles`), and system analytics logs (`pedix_analytics_log`).
+- **Amazon Cognito + AWS Lambda:** Manages user authentication (`ap-southeast-1_Osm01gaEp`) with a Post-Confirmation Lambda trigger assigning users to the `pedix-users` group.
 
-### AWS Services Used
-- **AWS IoT Core**: Ingests MQTT data from 5 stations, scalable to 15.
-- **AWS Lambda**: Processes data and triggers Glue jobs (two functions).
-- **Amazon API Gateway**: Facilitates web app communication.
-- **Amazon S3**: Stores raw data in a data lake and processed outputs (two buckets).
-- **AWS Glue**: Crawlers catalog data, and ETL jobs transform and load it.
-- **AWS Amplify**: Hosts the Next.js web interface.
-- **Amazon Cognito**: Secures access for lab users.
-
-### Component Design
-- **Edge Devices**: Raspberry Pi collects and filters sensor data, sending it to IoT Core.
-- **Data Ingestion**: AWS IoT Core receives MQTT messages from the edge devices.
-- **Data Storage**: Raw data is stored in an S3 data lake; processed data is stored in another S3 bucket.
-- **Data Processing**: AWS Glue Crawlers catalog the data, and ETL jobs transform it for analysis.
-- **Web Interface**: AWS Amplify hosts a Next.js app for real-time dashboards and analytics.
-- **User Management**: Amazon Cognito manages user access, allowing up to 5 active accounts.
-
-### 4. Technical Implementation
-**Implementation Phases**
-This project has two parts—setting up weather edge stations and building the weather platform—each following 4 phases:
-- Build Theory and Draw Architecture: Research Raspberry Pi setup with ESP32 sensors and design the AWS serverless architecture (1 month pre-internship)
-- Calculate Price and Check Practicality: Use AWS Pricing Calculator to estimate costs and adjust if needed (Month 1).
-- Fix Architecture for Cost or Solution Fit: Tweak the design (e.g., optimize Lambda with Next.js) to stay cost-effective and usable (Month 2).
-- Develop, Test, and Deploy: Code the Raspberry Pi setup, AWS services with CDK/SDK, and Next.js app, then test and release to production (Months 2-3).
-
-**Technical Requirements**
-- Weather Edge Station: Sensors (temperature, humidity, rainfall, wind speed), a microcontroller (ESP32), and a Raspberry Pi as the edge device. Raspberry Pi runs Raspbian, handles Docker for filtering, and sends 1 MB/day per station via MQTT over Wi-Fi.
-- Weather Platform: Practical knowledge of AWS Amplify (hosting Next.js), Lambda (minimal use due to Next.js), AWS Glue (ETL), S3 (two buckets), IoT Core (gateway and rules), and Cognito (5 users). Use AWS CDK/SDK to code interactions (e.g., IoT Core rules to S3). Next.js reduces Lambda workload for the fullstack web app.
+### 4. Technical Implementation & Deployment Details
+#### Implementation Phases
+1. **Research & Domain Modeling (Month 1):** Curated pediatric guidelines from WHO and NICE CG160. Formulated ESI v4 urgency mapping and age-stratified pre-filters (`newborn`, `young_infant`, `infant`, `toddler`, `preschool`).
+2. **Architecture & Cost Optimization (Month 2):** Designed a custom Python agent orchestrator. Replaced OpenSearch Serverless with Qdrant Docker on EC2 to eliminate ~$60/month base costs. Configured a 2GB EBS Swap to prevent EC2 OOM issues during heavy tensor embeddings.
+3. **Backend & SSE Streaming (Month 2-3):** Built a multi-stage retrieval pipeline. Resolved CloudFront/ALB idle connection timeouts by implementing a 5.0-second SSE heartbeat (`_call_with_heartbeat`) during long reasoning loops. Set FastAPI workers to `--workers 1` to ensure shared `PendingRequestStore` state across SSE requests.
+4. **Zero-Trust Deployment (Month 3):** Deployed infrastructure via AWS Console/CLI. Configured Security Group chaining and resolved an API Gateway proxy shadowing issue by mapping `/api/chat/{proxy+}` correctly to the VPC Link.
 
 ### 5. Timeline & Milestones
-**Project Timeline**
-- Pre-Internship (Month 0): 1 month for planning and old station review.
-- Internship (Months 1-3): 3 months.
-    - Month 1: Study AWS and upgrade hardware.
-    - Month 2: Design and adjust architecture.
-    - Month 3: Implement, test, and launch.
-- Post-Launch: Up to 1 year for research.
+- **Month 1 (May 2026):** Requirements gathering, WHO/NICE knowledge base curation, and Stage 0 safety screen development.
+- **Month 2 (June 2026):** FastAPI backend, Qdrant integration, Bedrock tool-use prompts, DynamoDB schema design, and React UI construction.
+- **Month 3 (July & August 2026):** Cloud deployment (Cognito, VPC Link, ALB, CloudFront), SSE heartbeat keep-alive optimization, Zero-Trust network segmentation, and complete end-to-end verification.
 
-### 6. Budget Estimation
-You can find the budget estimation on the [AWS Pricing Calculator](https://calculator.aws/#/estimate?id=621f38b12a1ef026842ba2ddfe46ff936ed4ab01).  
-Or you can download the [Budget Estimation File](../attachments/budget_estimation.pdf).
+### 6. Production Cost Breakdown (~100 users)
+The production environment is heavily optimized for AWS Free Tier in `ap-southeast-1`:
 
-### Infrastructure Costs
-- AWS Services:
-    - AWS Lambda: $0.00/month (1,000 requests, 512 MB storage).
-    - S3 Standard: $0.15/month (6 GB, 2,100 requests, 1 GB scanned).
-    - Data Transfer: $0.02/month (1 GB inbound, 1 GB outbound).
-    - AWS Amplify: $0.35/month (256 MB, 500 ms requests).
-    - Amazon API Gateway: $0.01/month (2,000 requests).
-    - AWS Glue ETL Jobs: $0.02/month (2 DPUs).
-    - AWS Glue Crawlers: $0.07/month (1 crawler).
-    - MQTT (IoT Core): $0.08/month (5 devices, 45,000 messages).
+| Service | Configuration | Est. Monthly Cost |
+|---|---|---|
+| EC2 (t3.micro) | Linux Ubuntu 2 GiB RAM + 2 GiB Swap | ~$9.50 |
+| Public IPv4 | EC2 assigned IP | $3.65 |
+| EBS Volume | 30 GiB gp3 storage | ~$3.00 |
+| Internal ALB | HTTP listener + target group | ~$24.24 |
+| VPC Link V2 | REST API Private Integration | $18.25 |
+| Bedrock Inference | Claude Haiku (~800 queries) | ~$14.00 |
+| DynamoDB | Pay-per-request (4 tables under 25GB) | <$0.10 |
+| CloudFront & S3 | Static assets & CDN transfer | ~$0.05 |
+| Cognito & CloudWatch | Free Tier limits | $0.00 |
+| **Total Estimated Cost** | | **~$72.7 / month** |
 
-Total: $0.7/month, $8.40/12 months
-
-- Hardware: $265 one-time (Raspberry Pi 5 and sensors).
-
-### 7. Risk Assessment
-#### Risk Matrix
-- Network Outages: Medium impact, medium probability.
-- Sensor Failures: High impact, low probability.
-- Cost Overruns: Medium impact, low probability.
-
-#### Mitigation Strategies
-- Network: Local storage on Raspberry Pi with Docker.
-- Sensors: Regular checks and spares.
-- Cost: AWS budget alerts and optimization.
-
-#### Contingency Plans
-- Revert to manual methods if AWS fails.
-- Use CloudFormation for cost-related rollbacks.
+### 7. Risk Assessment & Mitigations
+- **Clinical Safety Misses:** Mitigated by deterministic Stage 0 screening (<10ms) that routes high-risk cases (e.g., cyanosis, bulging fontanelle, fever under 90 days) directly to emergency advice without waiting for LLM loops.
+- **ALB / API Gateway SSE Timeouts:** Resolved by implementing 5-second heartbeat SSE events to prevent network components from dropping the connection while Bedrock processes long reasoning traces.
+- **Security & Authorization Leaks:** Mitigated by API Gateway Cognito JWT Authorizers, secondary FastAPI JWKS key validation, and ALB Security Group chaining that prevents direct external access to backend endpoints.
 
 ### 8. Expected Outcomes
-#### Technical Improvements: 
-Real-time data and analytics replace manual processes.  
-Scalable to 10-15 stations.
-#### Long-term Value
-1-year data foundation for AI research.  
-Reusable for future projects.
+- **Demonstrable Level 4 Agentic RAG:** A fully functional, age-aware pediatric health assistant deployed live on AWS.
+- **Transparent Healthcare AI:** A collapsible reasoning trace allowing parents to inspect every decision stage and cited source in real-time via SSE.
+- **Comprehensive Cloud Architecture:** Production deployment combining 12 AWS services with strict DevSecOps, zero-trust network boundaries, and rigorous cost governance.

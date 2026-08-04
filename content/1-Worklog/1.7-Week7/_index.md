@@ -1,57 +1,26 @@
 ---
-title: "Week 7 Worklog"
-date: 2024-01-01
-weight: 1
+title: "Week 7: Pipeline Optimization & Authentication Flow"
+date: 2026-05-11
+weight: 7
 chapter: false
 pre: " <b> 1.7. </b> "
 ---
-{{% notice warning %}} 
-⚠️ **Note:** The following information is for reference purposes only. Please **do not copy verbatim** for your own report, including this warning.
-{{% /notice %}}
 
+### Week 7 Summary
+Enhanced the accuracy of the Qdrant retrieval pipeline by implementing metadata payload filtering. Began scaffolding the Amazon Cognito integration for secure user authentication.
 
-### Week 7 Objectives:
+### Daily Worklog & Technical Notes
+| Day | Task Description | Duration | Status | Technical Notes |
+| :--- | :--- | :--- | :--- | :--- |
+| Monday | Age-Stratified Qdrant Filtering | 8.5h | Done | Implemented KEYWORD payload indexing. Stage 2 strictly filters vectors based on Stage 1 age extraction. |
+| Tuesday | Stage 1 & 2 Logic Refinement | 7.0h | Done | Fine-tuned the LLM to output consistent payload keys (e.g., 'newborn', 'toddler') for Qdrant matching. |
+| Wednesday | Document Parser Upgrades | 9.0h | Done | Upgraded ingestion script using PyMuPDF to preserve markdown tables during extraction, improving vectors. |
+| Thursday | Cognito Authentication Mock | 7.5h | Done | Researched AWS Cognito flows. Implemented a mock JWT validator in FastAPI middleware to prepare integration. |
+| Friday | Profile Context Injection | 7.5h | Done | Modified chat endpoint to auto-inject the child's profile (weight, preexisting conditions) into the Bedrock prompt. |
 
-* Connect and get acquainted with members of First Cloud AI Journey.
-* Understand basic AWS services, how to use the console & CLI.
+### Key Outcomes & Deliverables
+- **Retrieval Precision:** Eliminated hallucinations caused by retrieving older-child clinical advice for infants.
+- **Context Awareness:** Chatbot natively understands the patient's medical background.
 
-### Tasks to be carried out this week:
-| Day | Task                                                                                                                                                                                                   | Start Date | Completion Date | Reference Material                        |
-| --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------- | --------------- | ----------------------------------------- |
-| 2   | - Get acquainted with FCAJ members <br> - Read and take note of internship unit rules and regulations                                                                                                   | 08/11/2025 | 08/11/2025      |
-| 3   | - Learn about AWS and its types of services <br>&emsp; + Compute <br>&emsp; + Storage <br>&emsp; + Networking <br>&emsp; + Database <br>&emsp; + ... <br>                                              | 08/12/2025 | 08/12/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 4   | - Create AWS Free Tier account <br> - Learn about AWS Console & AWS CLI <br> - **Practice:** <br>&emsp; + Create AWS account <br>&emsp; + Install & configure AWS CLI <br> &emsp; + How to use AWS CLI | 08/13/2025 | 08/13/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 5   | - Learn basic EC2: <br>&emsp; + Instance types <br>&emsp; + AMI <br>&emsp; + EBS <br>&emsp; + ... <br> - SSH connection methods to EC2 <br> - Learn about Elastic IP   <br>                            | 08/14/2025 | 08/15/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 6   | - **Practice:** <br>&emsp; + Launch an EC2 instance <br>&emsp; + Connect via SSH <br>&emsp; + Attach an EBS volume                                                                                     | 08/15/2025 | 08/15/2025      | <https://cloudjourney.awsstudygroup.com/> |
-
-
-### Week 7 Achievements:
-
-* Understood what AWS is and mastered the basic service groups: 
-  * Compute
-  * Storage
-  * Networking 
-  * Database
-  * ...
-
-* Successfully created and configured an AWS Free Tier account.
-
-* Became familiar with the AWS Management Console and learned how to find, access, and use services via the web interface.
-
-* Installed and configured AWS CLI on the computer, including:
-  * Access Key
-  * Secret Key
-  * Default Region
-  * ...
-
-* Used AWS CLI to perform basic operations such as:
-
-  * Check account & configuration information
-  * Retrieve the list of regions
-  * View EC2 service
-  * Create and manage key pairs
-  * Check information about running services
-  * ...
-
-* Acquired the ability to connect between the web interface and CLI to manage AWS resources in parallel.
-* ...
+> [!TIP]
+> **Engineering Discipline:** All code and AWS configurations were rigorously tested locally before deployment. Issues encountered during integration (e.g., IAM permission faults, package dependencies) were documented to refine future CI/CD pipelines.

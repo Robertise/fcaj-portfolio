@@ -35,7 +35,7 @@ pre: " <b> 4.2. </b> "
 
 #### Transitioning to modern application architecture – Microservices
 
-Migrating to a modular system — each function is an **independent service** communicating via **events**, built on three core pillars:
+Migrating to a modular system - each function is an **independent service** communicating via **events**, built on three core pillars:
 
 - **Queue Management**: Handle asynchronous tasks  
 - **Caching Strategy**: Optimize performance  
@@ -82,7 +82,7 @@ Migrating to a modular system — each function is an **independent service** co
 
 #### Modernization Strategy
 
-- **Phased approach**: No rushing — follow a clear roadmap  
+- **Phased approach**: No rushing - follow a clear roadmap  
 - **7Rs framework**: Multiple modernization paths depending on the application  
 - **ROI measurement**: Cost reduction + business agility  
 

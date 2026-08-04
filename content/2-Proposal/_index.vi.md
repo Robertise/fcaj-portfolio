@@ -5,104 +5,80 @@ weight: 2
 chapter: false
 pre: " <b> 2. </b> "
 ---
-{{% notice warning %}}
-⚠️ **Lưu ý:** Các thông tin dưới đây chỉ nhằm mục đích tham khảo, vui lòng **không sao chép nguyên văn** cho bài báo cáo của bạn kể cả warning này.
-{{% /notice %}}
+Tại phần này, chúng tôi trình bày chi tiết bản đề xuất kỹ thuật và quá trình triển khai hệ thống Pedix.
 
-Tại phần này, bạn cần tóm tắt các nội dung trong workshop mà bạn **dự tính** sẽ làm.
+# Pedix - Trợ lý Hướng dẫn Chăm sóc Sức khỏe Nhi khoa Agentic RAG
+## Hệ thống Agentic RAG Phân tầng Độ tuổi Level 4 Triển khai trên AWS
 
-# IoT Weather Platform for Lab Research  
-## Giải pháp AWS Serverless hợp nhất cho giám sát thời tiết thời gian thực  
+### 1. Tóm tắt điều hành
+**Pedix** là ứng dụng web trợ lý sức khỏe AI được triển khai hoàn chỉnh trên đám mây AWS, thiết kế chuyên biệt cho phụ huynh và người chăm sóc trẻ em trong độ tuổi **từ 0 đến 5 tuổi (nhi khoa under-5)**. Khác với các công cụ tra cứu triệu chứng thông thường hoặc chatbot trả lời tĩnh, Pedix vận hành quy trình suy luận **Level 4 Agentic Retrieval-Augmented Generation (RAG)** phân tầng theo độ tuổi, kết hợp sức mạnh của Amazon Bedrock (Claude Haiku), cơ sở dữ liệu vector Qdrant và 12 dịch vụ đám mây AWS. Hệ thống đưa ra khuyến nghị lộ trình chăm sóc y tế, phân loại mức độ khẩn cấp (theo chuẩn ESI v4) và danh mục chuẩn bị trước khi khám bệnh dựa trên hướng dẫn lâm sàng chuẩn mực từ WHO và NICE. Toàn bộ kiến trúc được tối ưu hóa cực hạn để tận dụng AWS Free Tier, giúp chi phí vận hành chỉ ở mức ~$72.7/tháng.
 
-### 1. Tóm tắt điều hành  
-IoT Weather Platform được thiết kế dành cho nhóm *ITea Lab* tại TP. Hồ Chí Minh nhằm nâng cao khả năng thu thập và phân tích dữ liệu thời tiết. Nền tảng hỗ trợ tối đa 5 trạm thời tiết, có khả năng mở rộng lên 10–15 trạm, sử dụng thiết bị biên Raspberry Pi kết hợp cảm biến ESP32 để truyền dữ liệu qua MQTT. Nền tảng tận dụng các dịch vụ AWS Serverless để cung cấp giám sát thời gian thực, phân tích dự đoán và tiết kiệm chi phí, với quyền truy cập giới hạn cho 5 thành viên phòng lab thông qua Amazon Cognito.  
+### 2. Tuyên bố vấn đề
+#### Vấn đề hiện tại
+Các triệu chứng ở trẻ nhỏ (như sốt hoặc khó thở) đòi hỏi phản ứng lâm sàng hoàn toàn khác nhau tùy thuộc vào độ tuổi chính xác: Sốt 38°C ở trẻ sơ sinh 2 tuần tuổi là một tình trạng cấp cứu y tế cần đưa đến phòng cấp cứu nhi khoa ngay lập tức, trong khi cùng mức nhiệt độ đó ở trẻ 3 tuổi thường có thể theo dõi và xử lý tại nhà. Các ứng dụng kiểm tra triệu chứng hiện nay thường sử dụng mô hình thích ứng từ người lớn hoặc pipeline cố định, không áp dụng được ngưỡng phân tầng độ tuổi, dẫn đến việc đánh giá quá thấp nguy cơ nguy hiểm hoặc gây ra các chuyến đi cấp cứu không cần thiết.
 
-### 2. Tuyên bố vấn đề  
-*Vấn đề hiện tại*  
-Các trạm thời tiết hiện tại yêu cầu thu thập dữ liệu thủ công, khó quản lý khi có nhiều trạm. Không có hệ thống tập trung cho dữ liệu hoặc phân tích thời gian thực, và các nền tảng bên thứ ba thường tốn kém và quá phức tạp.  
+#### Giải pháp
+Pedix giới thiệu kiến trúc **Agentic RAG Phân tầng Độ tuổi Level 4**:
+- **Giai đoạn 0 (Safety Screen):** Bộ lọc an toàn định tính kiểm tra các dấu hiệu cấp cứu đe dọa tính mạng trong <10ms trước khi gọi LLM.
+- **Giai đoạn 1 (Query Analysis):** Ưu tiên xác định chính xác tuổi của trẻ và ánh xạ vào các nhóm tuổi.
+- **Giai đoạn 2 (Retrieval):** Lọc metadata `age_group` trực tiếp trên Qdrant trước khi tìm kiếm vector tương đồng.
+- **Giai đoạn 3 & 4 (Reasoning & Reflection):** Suy luận lộ trình chăm sóc dựa trên ESI v4 và tự đánh giá độ hoàn thiện (vòng lặp reflection).
+- **Giai đoạn 5 (Output):** Tạo câu trả lời an tâm, minh bạch cho phụ huynh kèm nguồn trích dẫn.
 
-*Giải pháp*  
-Nền tảng sử dụng AWS IoT Core để tiếp nhận dữ liệu MQTT, AWS Lambda và API Gateway để xử lý, Amazon S3 để lưu trữ (bao gồm data lake), và AWS Glue Crawlers cùng các tác vụ ETL để trích xuất, chuyển đổi, tải dữ liệu từ S3 data lake sang một S3 bucket khác để phân tích. AWS Amplify với Next.js cung cấp giao diện web, và Amazon Cognito đảm bảo quyền truy cập an toàn. Tương tự như Thingsboard và CoreIoT, người dùng có thể đăng ký thiết bị mới và quản lý kết nối, nhưng nền tảng này hoạt động ở quy mô nhỏ hơn và phục vụ mục đích sử dụng nội bộ. Các tính năng chính bao gồm bảng điều khiển thời gian thực, phân tích xu hướng và chi phí vận hành thấp.  
+#### Lợi ích và Hoàn vốn Đầu tư (ROI)
+- **An toàn Lâm sàng & Minh bạch:** Vết suy luận (Reasoning Trace) hiển thị trực quan cùng nguồn trích dẫn WHO/NICE giúp phụ huynh tin tưởng, xóa bỏ rào cản "hộp đen AI".
+- **Quản trị Chi phí trên AWS:** Tối ưu hóa hạ tầng production chạy trên EC2 (t3.micro), Qdrant Container, DynamoDB On-Demand và API Gateway VPC Link với chi phí **~$72.7/tháng**.
+- **Khả năng Mở rộng:** Quản trị viên có thể cập nhật tài liệu y khoa vào hệ thống vector mà không cần phải redeploy lại toàn bộ backend.
 
-*Lợi ích và hoàn vốn đầu tư (ROI)*  
-Giải pháp tạo nền tảng cơ bản để các thành viên phòng lab phát triển một nền tảng IoT lớn hơn, đồng thời cung cấp nguồn dữ liệu cho những người nghiên cứu AI phục vụ huấn luyện mô hình hoặc phân tích. Nền tảng giảm bớt báo cáo thủ công cho từng trạm thông qua hệ thống tập trung, đơn giản hóa quản lý và bảo trì, đồng thời cải thiện độ tin cậy dữ liệu. Chi phí hàng tháng ước tính 0,66 USD (theo AWS Pricing Calculator), tổng cộng 7,92 USD cho 12 tháng. Tất cả thiết bị IoT đã được trang bị từ hệ thống trạm thời tiết hiện tại, không phát sinh chi phí phát triển thêm. Thời gian hoàn vốn 6–12 tháng nhờ tiết kiệm đáng kể thời gian thao tác thủ công.  
+### 3. Kiến trúc Giải pháp Chi tiết
+Pedix vận hành trên hạ tầng AWS chuẩn Production áp dụng kiến trúc mạng Zero-Trust đặt tại Region `ap-southeast-1` (Singapore):
 
-### 3. Kiến trúc giải pháp  
-Nền tảng áp dụng kiến trúc AWS Serverless để quản lý dữ liệu từ 5 trạm dựa trên Raspberry Pi, có thể mở rộng lên 15 trạm. Dữ liệu được tiếp nhận qua AWS IoT Core, lưu trữ trong S3 data lake và xử lý bởi AWS Glue Crawlers và ETL jobs để chuyển đổi và tải vào một S3 bucket khác cho mục đích phân tích. Lambda và API Gateway xử lý bổ sung, trong khi Amplify với Next.js cung cấp bảng điều khiển được bảo mật bởi Cognito.  
+![Kiến trúc AWS Pedix](/images/2-Proposal/pedix_architecture.png)
 
-![IoT Weather Station Architecture](/images/2-Proposal/edge_architecture.jpeg)
+#### Phân lập Mạng Zero-Trust & Các Dịch Vụ AWS
+- **Amazon S3 + CloudFront:** Lưu trữ giao diện React (Vite). Bucket S3 (`pedix-frontend-prod`) được đóng hoàn toàn khỏi mạng internet công cộng (Block All Public Access) và chỉ phân phối thông qua CloudFront Origin Access Control (OAC).
+- **Amazon API Gateway (Regional REST):** Chịu trách nhiệm xác thực token bằng Cognito JWT Authorizer và tạo đường hầm (tunnel) vào VPC nội bộ thông qua VPC Link V2 (`fzvy02`). Nó hỗ trợ native Server-Sent Events (SSE) để truyền dữ liệu thời gian thực cho UI.
+- **Application Load Balancer (Internal ALB):** Hoạt động dưới dạng Internal Scheme (không có IP Public), kết nối an toàn từ API Gateway tới EC2 backend.
+- **Amazon EC2 (t3.micro + 2GB Swap):** Chạy FastAPI server trên IP nội bộ (`172.31.42.140`). Áp dụng kỹ thuật Security Group Chaining, port 8000 của EC2 chỉ chấp nhận traffic từ ALB, loại bỏ 100% rủi ro truy cập trái phép từ bên ngoài.
+- **Qdrant Vector DB (Docker v1.10.1):** Database vector chuyên dụng chứa dữ liệu guideline lâm sàng. Container được cấu hình bind trực tiếp vào `127.0.0.1:6333` nhằm cô lập tuyệt đối khỏi các EC2 khác trong cùng VPC.
+- **Amazon Bedrock (Claude Haiku):** Xử lý mọi logic suy luận, reflection và tổng hợp bằng model `global.anthropic.claude-haiku-4-5-20251001-v1:0`.
+- **Amazon DynamoDB:** Bốn bảng On-Demand (không tính phí duy trì) lưu trữ sessions, profiles của trẻ, nhật ký phân tích và metadata tài liệu.
+- **Amazon Cognito + AWS Lambda:** Quản trị danh tính. Lambda Post-Confirmation tự động gán user sau khi đăng ký vào group `pedix-users`.
 
-![IoT Weather Platform Architecture](/images/2-Proposal/platform_architecture.jpeg)
+### 4. Triển khai Kỹ thuật
+#### Các giai đoạn triển khai
+1. **Nghiên cứu & Mô hình hóa (Tháng 1):** Thu thập tài liệu WHO & NICE CG160, xây dựng bộ lọc dấu hiệu cấp cứu Stage 0 và ma trận phân tầng độ tuổi.
+2. **Thiết kế Kiến trúc & Tối ưu Chi phí (Tháng 2):** Thay thế OpenSearch Serverless bằng Qdrant Docker trên EC2 để tiết kiệm chi phí nền tảng ~$60/tháng. Phân bổ 2GB EBS Swap để khắc phục lỗi OOM (Out-Of-Memory) của EC2 khi xử lý các chunk văn bản lớn.
+3. **Phát triển Backend & SSE Streaming (Tháng 2-3):** Khắc phục lỗi timeout của CloudFront/ALB bằng cách tích hợp heartbeat frame ngầm định 5 giây/lần. Cấu hình FastAPI worker xuống `--workers 1` để đồng bộ state khi xử lý SSE request bất đồng bộ.
+4. **Triển khai Hệ thống Zero-Trust (Tháng 3):** Build infrastructure thông qua AWS CLI/Console, thiết lập Security Group Chaining và VPC Link chuẩn xác.
 
-*Dịch vụ AWS sử dụng*  
-- *AWS IoT Core*: Tiếp nhận dữ liệu MQTT từ 5 trạm, mở rộng lên 15.  
-- *AWS Lambda*: Xử lý dữ liệu và kích hoạt Glue jobs (2 hàm).  
-- *Amazon API Gateway*: Giao tiếp với ứng dụng web.  
-- *Amazon S3*: Lưu trữ dữ liệu thô (data lake) và dữ liệu đã xử lý (2 bucket).  
-- *AWS Glue*: Crawlers lập chỉ mục dữ liệu, ETL jobs chuyển đổi và tải dữ liệu.  
-- *AWS Amplify*: Lưu trữ giao diện web Next.js.  
-- *Amazon Cognito*: Quản lý quyền truy cập cho người dùng phòng lab.  
+### 5. Lộ trình & Mốc triển khai
+- **Tháng 5/2026:** Thu thập yêu cầu, định hình kiến trúc AWS Cloud, nghiên cứu WHO guideline.
+- **Tháng 6/2026:** Code FastAPI backend, tích hợp Qdrant, viết prompt tool-use cho Bedrock, thiết kế DynamoDB và giao diện React.
+- **Tháng 7 & 8/2026:** Triển khai đám mây AWS toàn diện, xử lý VPC Link, tối ưu SSE heartbeat, thiết lập phân lập mạng Zero-Trust, kiểm thử End-to-End.
 
-*Thiết kế thành phần*  
-- *Thiết bị biên*: Raspberry Pi thu thập và lọc dữ liệu cảm biến, gửi tới IoT Core.  
-- *Tiếp nhận dữ liệu*: AWS IoT Core nhận tin nhắn MQTT từ thiết bị biên.  
-- *Lưu trữ dữ liệu*: Dữ liệu thô lưu trong S3 data lake; dữ liệu đã xử lý lưu ở một S3 bucket khác.  
-- *Xử lý dữ liệu*: AWS Glue Crawlers lập chỉ mục dữ liệu; ETL jobs chuyển đổi để phân tích.  
-- *Giao diện web*: AWS Amplify lưu trữ ứng dụng Next.js cho bảng điều khiển và phân tích thời gian thực.  
-- *Quản lý người dùng*: Amazon Cognito giới hạn 5 tài khoản hoạt động.  
+### 6. Ước tính Ngân sách Production (~100 người dùng)
+Hệ thống được thiết kế tinh giản tối đa, tận dụng AWS Free Tier (Region Singapore):
 
-### 4. Triển khai kỹ thuật  
-*Các giai đoạn triển khai*  
-Dự án gồm 2 phần — thiết lập trạm thời tiết biên và xây dựng nền tảng thời tiết — mỗi phần trải qua 4 giai đoạn:  
-1. *Nghiên cứu và vẽ kiến trúc*: Nghiên cứu Raspberry Pi với cảm biến ESP32 và thiết kế kiến trúc AWS Serverless (1 tháng trước kỳ thực tập).  
-2. *Tính toán chi phí và kiểm tra tính khả thi*: Sử dụng AWS Pricing Calculator để ước tính và điều chỉnh (Tháng 1).  
-3. *Điều chỉnh kiến trúc để tối ưu chi phí/giải pháp*: Tinh chỉnh (ví dụ tối ưu Lambda với Next.js) để đảm bảo hiệu quả (Tháng 2).  
-4. *Phát triển, kiểm thử, triển khai*: Lập trình Raspberry Pi, AWS services với CDK/SDK và ứng dụng Next.js, sau đó kiểm thử và đưa vào vận hành (Tháng 2–3).  
+| Dịch vụ | Cấu hình | Chi phí ước tính / Tháng |
+|---|---|---|
+| EC2 (t3.micro) | Linux Ubuntu 2 GiB RAM + 2 GiB Swap | ~$9.50 |
+| Public IPv4 | IPv4 tĩnh gán cho EC2 | $3.65 |
+| Ổ cứng EBS | 30 GiB gp3 storage | ~$3.00 |
+| Internal ALB | HTTP listener + Target group | ~$24.24 |
+| VPC Link V2 | REST API Private Integration | $18.25 |
+| Bedrock Inference | Claude Haiku (~800 truy vấn) | ~$14.00 |
+| DynamoDB | On-Demand (4 bảng dưới 25GB) | <$0.10 |
+| CloudFront & S3 | Băng thông CDN & lưu trữ file tĩnh | ~$0.05 |
+| Cognito & CloudWatch | Trong hạn mức Free Tier | $0.00 |
+| **Tổng cộng** | | **~$72.7 / tháng** |
 
-*Yêu cầu kỹ thuật*  
-- *Trạm thời tiết biên*: Cảm biến (nhiệt độ, độ ẩm, lượng mưa, tốc độ gió), vi điều khiển ESP32, Raspberry Pi làm thiết bị biên. Raspberry Pi chạy Raspbian, sử dụng Docker để lọc dữ liệu và gửi 1 MB/ngày/trạm qua MQTT qua Wi-Fi.  
-- *Nền tảng thời tiết*: Kiến thức thực tế về AWS Amplify (lưu trữ Next.js), Lambda (giảm thiểu do Next.js xử lý), AWS Glue (ETL), S3 (2 bucket), IoT Core (gateway và rules), và Cognito (5 người dùng). Sử dụng AWS CDK/SDK để lập trình (ví dụ IoT Core rules tới S3). Next.js giúp giảm tải Lambda cho ứng dụng web fullstack.  
+### 7. Đánh giá Rủi ro
+- **Bỏ sót Dấu hiệu Cấp cứu:** Khắc phục bằng bộ lọc Stage 0 định tính (<10ms) chuyển hướng thẳng tới hướng dẫn cấp cứu đối với các trường hợp nguy cơ cao.
+- **Timeout SSE trên ALB / API Gateway:** Khắc phục bằng cơ chế phát heartbeat giữ kết nối sống sót trong lúc Bedrock suy luận logic phức tạp.
+- **Rò rỉ Bảo mật & Bỏ qua Xác thực:** Khắc phục triệt để thông qua cơ chế phòng thủ chiều sâu (Defense-in-depth): xác thực JWT bằng API Gateway, xác minh JWKS nội bộ của FastAPI và khóa truy cập bằng Security Group Chaining.
 
-### 5. Lộ trình & Mốc triển khai  
-- *Trước thực tập (Tháng 0)*: 1 tháng lên kế hoạch và đánh giá trạm cũ.  
-- *Thực tập (Tháng 1–3)*:  
-    - Tháng 1: Học AWS và nâng cấp phần cứng.  
-    - Tháng 2: Thiết kế và điều chỉnh kiến trúc.  
-    - Tháng 3: Triển khai, kiểm thử, đưa vào sử dụng.  
-- *Sau triển khai*: Nghiên cứu thêm trong vòng 1 năm.  
-
-### 6. Ước tính ngân sách  
-Có thể xem chi phí trên [AWS Pricing Calculator](https://calculator.aws/#/estimate?id=621f38b12a1ef026842ba2ddfe46ff936ed4ab01)  
-Hoặc tải [tệp ước tính ngân sách](../attachments/budget_estimation.pdf).  
-
-*Chi phí hạ tầng*  
-- AWS Lambda: 0,00 USD/tháng (1.000 request, 512 MB lưu trữ).  
-- S3 Standard: 0,15 USD/tháng (6 GB, 2.100 request, 1 GB quét).  
-- Truyền dữ liệu: 0,02 USD/tháng (1 GB vào, 1 GB ra).  
-- AWS Amplify: 0,35 USD/tháng (256 MB, request 500 ms).  
-- Amazon API Gateway: 0,01 USD/tháng (2.000 request).  
-- AWS Glue ETL Jobs: 0,02 USD/tháng (2 DPU).  
-- AWS Glue Crawlers: 0,07 USD/tháng (1 crawler).  
-- MQTT (IoT Core): 0,08 USD/tháng (5 thiết bị, 45.000 tin nhắn).  
-
-*Tổng*: 0,7 USD/tháng, 8,40 USD/12 tháng  
-- *Phần cứng*: 265 USD một lần (Raspberry Pi 5 và cảm biến).  
-
-### 7. Đánh giá rủi ro  
-*Ma trận rủi ro*  
-- Mất mạng: Ảnh hưởng trung bình, xác suất trung bình.  
-- Hỏng cảm biến: Ảnh hưởng cao, xác suất thấp.  
-- Vượt ngân sách: Ảnh hưởng trung bình, xác suất thấp.  
-
-*Chiến lược giảm thiểu*  
-- Mạng: Lưu trữ cục bộ trên Raspberry Pi với Docker.  
-- Cảm biến: Kiểm tra định kỳ, dự phòng linh kiện.  
-- Chi phí: Cảnh báo ngân sách AWS, tối ưu dịch vụ.  
-
-*Kế hoạch dự phòng*  
-- Quay lại thu thập thủ công nếu AWS gặp sự cố.  
-- Sử dụng CloudFormation để khôi phục cấu hình liên quan đến chi phí.  
-
-### 8. Kết quả kỳ vọng  
-*Cải tiến kỹ thuật*: Dữ liệu và phân tích thời gian thực thay thế quy trình thủ công. Có thể mở rộng tới 10–15 trạm.  
-*Giá trị dài hạn*: Nền tảng dữ liệu 1 năm cho nghiên cứu AI, có thể tái sử dụng cho các dự án tương lai.
+### 8. Kết quả Kỳ vọng
+- **Hệ thống Agentic RAG Level 4 thực tế:** Ứng dụng trợ lý nhi khoa thông minh, hoạt động trực tiếp trên đám mây AWS.
+- **AI Y tế Minh bạch:** Giao diện truyền dẫn vết suy luận SSE trực quan, cho phép người dùng giám sát toàn bộ quá trình ra quyết định của bot.
+- **Kiến trúc Cloud Hoàn chỉnh:** Mô hình hệ thống an toàn tuyệt đối, phân tách ranh giới mạng nghiêm ngặt và tối ưu vượt trội về chi phí cho doanh nghiệp.
