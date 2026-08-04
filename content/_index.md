@@ -8,30 +8,27 @@ chapter: false
     
 # Internship Report
 
-{{% notice warning %}}
-⚠️ **Note:** The information below is for reference purposes only. Please **do not copy verbatim** for your report, including this warning.
-{{% /notice %}}
 
 ### Student Information:
-&emsp; **Full Name:** Nguyen Van A
+&emsp; **Full Name:** Do Gia Huy
 
-&emsp; **Phone Number:** 0989888999 
+&emsp; **Phone Number:** 0862165876 
 
-&emsp; **Email:** Anguyenvan@gmail.com
+&emsp; **Email:** 104988294@student.swin.edu.au
 
-&emsp; **University:** Ho Chi Minh City University of Technology and Education
+&emsp; **University:** Swinburne University of Technology
 
-&emsp; **Major:** Information Technology
+&emsp; **Major:** Computer Science, Department of Artificial Intelligence
 
-&emsp; **Class:** AWS082025
+&emsp; **Class:** ICT20016
 
 &emsp; **Internship Company:** Amazon Web Services Viet Nam Company Limited
 
 &emsp; **Internship Position:** Workforce Bootcamp - First Cloud AI Journey
 
-&emsp; **Internship Duration:** From 12/08/2025 to 12/11/2025
+&emsp; **Internship Duration:** From 11/05/2026 to 11/08/2026
 
-![Your profile picture](/images/avatar.png)
+<img src="/images/avatar.jpg" alt="Profile Picture" width="400" style="max-width: 1000px; border-radius: 10px; margin: 15px 0; box-shadow: 0 4px 12px rgba(0,0,0,0.1);" />
 
 ### Report Content
 
