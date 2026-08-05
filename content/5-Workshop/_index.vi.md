@@ -32,8 +32,8 @@ Dự án này được xây dựng bởi nhóm gồm 2 thành viên. Khối lư�
 #### Nội dung
 
 1. [Tổng quan về workshop](5.1-Workshop-overview/)
-2. [Chuẩn bị](5.2-Prerequiste/)
-3. [Thiết lập EC2, Qdrant & FastAPI Backend](5.3-S3-vpc/)
-4. [Cấu hình API Gateway, VPC Link V2 & Internal ALB](5.4-S3-onprem/)
-5. [Triển khai Cognito Auth & Bảng DynamoDB](5.5-Policy/)
-6. [Phân phối Frontend S3/CloudFront & Kiểm thử hệ thống](5.6-Cleanup/)
+2. [Chuẩn bị](5.2-Prerequisites/)
+3. [Thiết lập EC2, Qdrant & FastAPI Backend](5.3-EC2-Backend/)
+4. [Cấu hình API Gateway, VPC Link V2 & Internal ALB](5.4-API-Gateway-ALB/)
+5. [Triển khai Cognito Auth & Bảng DynamoDB](5.5-Cognito-DynamoDB/)
+6. [Phân phối Frontend S3/CloudFront & Kiểm thử hệ thống](5.6-Frontend-CloudFront/)

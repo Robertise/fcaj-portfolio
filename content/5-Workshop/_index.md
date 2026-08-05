@@ -29,9 +29,9 @@ This project was built collaboratively by a two-person team. The workload and co
 
 #### Content
 
-1. [Workshop Overview](5.1-Workshop-overview)
-2. [Prerequisites](5.2-Prerequiste/)
-3. [EC2, Qdrant & FastAPI Backend Setup](5.3-S3-vpc/)
-4. [API Gateway, VPC Link V2 & Internal ALB Configuration](5.4-S3-onprem/)
-5. [Cognito Auth & DynamoDB Schema Deployment](5.5-Policy/)
-6. [Frontend S3/CloudFront Deployment & System Validation](5.6-Cleanup/)
+1. [Workshop Overview](5.1-Workshop-overview/)
+2. [Prerequisites](5.2-Prerequisites/)
+3. [EC2, Qdrant & FastAPI Backend Setup](5.3-EC2-Backend/)
+4. [API Gateway, VPC Link V2 & Internal ALB Configuration](5.4-API-Gateway-ALB/)
+5. [Cognito Auth & DynamoDB Schema Deployment](5.5-Cognito-DynamoDB/)
+6. [Frontend S3/CloudFront Deployment & System Validation](5.6-Frontend-CloudFront/)
