@@ -8,11 +8,11 @@ pre: " <b> 3. </b> "
 
 This section lists technical blogs published on the [AWS Study Group](https://www.facebook.com/groups/awsstudygroupfcj) during my internship journey:
 
-### [Blog 1 - LEVEL 4 AGENTIC RAG WITH AMAZON BEDROCK & CLAUDE SONNET](3.1-Blog1/)
-An in-depth exploration of Level 4 Agentic Retrieval-Augmented Generation (RAG) for pediatric healthcare. Discusses how age-stratified prompt engineering, Amazon Bedrock Tool-Use APIs, and reflection loops eliminate AI black-box decisions in high-stakes clinical domains.
+### [Blog 1 - SECURING PRIVATE BACKENDS WITH API GATEWAY VPC LINK V2 & INTERNAL ALB](3.1-Blog1/)
+A deep dive into zero-trust architecture, explaining how to securely expose private backends using API Gateway REST proxy integrations, VPC Link v2, and Internal ALBs, including resolving resource shadowing issues.
 
-### [Blog 2 - COST-OPTIMIZED VECTOR DB PRE-FILTERING WITH QDRANT ON AWS EC2](3.2-Blog2/)
-Demonstrates how running Qdrant as a Docker container on EC2 (t3.micro) with payload indexing on `age_group` metadata reduces AWS infrastructure costs by ~$60/month compared to OpenSearch Serverless while achieving sub-50ms vector query latencies.
+### [Blog 2 - HEALTHCARE AI GUARDRAILS: MANAGED SERVICES VS. CUSTOM IMPLEMENTATIONS](3.2-Blog2/)
+An analysis of the unique risks in healthcare AI and a comparison between using managed services like Amazon Bedrock Guardrails versus building custom, multi-layered safety guardrails for specialized clinical logic.
 
-### [Blog 3 - SECURING PRIVATE BACKENDS WITH API GATEWAY VPC LINK V2 & INTERNAL ALB](3.3-Blog3/)
-A step-by-step guide to building zero-trust serverless backend connections on AWS using API Gateway REST proxy integrations, VPC Link V2, internal ALBs, and configuring Server-Sent Events (SSE) streaming with heartbeat keep-alives.
+### [Blog 3 - METADATA FILTERING: WHY FILTERING BEFORE SEARCHING IS CRUCIAL IN RAG](3.3-Blog3/)
+An exploration of the limitations of pure semantic search in Retrieval-Augmented Generation (RAG) and why implementing metadata filtering as a mandatory business-logic guardrail ensures safe and context-aware AI outputs.
