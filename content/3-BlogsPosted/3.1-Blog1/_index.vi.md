@@ -3,9 +3,7 @@ title: "Blog 1: API Gateway & VPC Link"
 weight: 10
 ---
 
-# Bảo Mật Backend: Tích Hợp API Gateway, VPC Link v2 và Internal ALB
-
-**Xem bài viết đã đăng trên AWS Study Group:** [Chèn link tại đây](https://www.facebook.com/groups/awsstudygroupfcj/...)
+# Bảo Mật Backend: Tích Hợp API Gateway, VPC Link v2 và Internal ALB 
 
 *Bài chia sẻ AWS Study Group – First Cloud AI Journey (FCAJ)*  
 *Dựa trên: [Build scalable REST APIs using Amazon API Gateway private integration with Application Load Balancer](https://aws.amazon.com/blogs/compute/build-scalable-rest-apis-using-amazon-api-gateway-private-integration-with-application-load-balancer) – AWS Compute Blog*

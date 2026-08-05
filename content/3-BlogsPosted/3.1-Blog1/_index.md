@@ -3,9 +3,7 @@ title: "Blog 1: Zero-Trust with API Gateway & VPC Link"
 weight: 10
 ---
 
-# Exposing Private Backends Securely: API Gateway, VPC Link v2, and Internal ALB
-
-**View the published post on AWS Study Group:** [Insert Link Here](https://www.facebook.com/groups/awsstudygroupfcj/...)
+# Exposing Private Backends Securely: API Gateway, VPC Link v2, and Internal ALB 
 
 *AWS Study Group Sharing – First Cloud AI Journey (FCAJ)*  
 *Based on: [Build scalable REST APIs using Amazon API Gateway private integration with Application Load Balancer](https://aws.amazon.com/blogs/compute/build-scalable-rest-apis-using-amazon-api-gateway-private-integration-with-application-load-balancer) – AWS Compute Blog*
