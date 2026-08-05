@@ -20,6 +20,15 @@ Bạn sẽ thực hành thiết kế và triển khai hạ tầng an toàn, tố
 + **Xác thực & Dữ liệu:** Quản lý người dùng qua Amazon Cognito, Lambda Post-Confirmation trigger và 4 bảng Amazon DynamoDB On-Demand.
 + **Phân phối Frontend:** Lưu trữ mã nguồn tĩnh React trên Amazon S3 và phân phối toàn cầu qua CloudFront CDN với Origin Access Control (OAC).
 
+#### Bảng Phân công Đóng góp (Team Contributions)
+
+Dự án này được xây dựng bởi nhóm gồm 2 thành viên. Khối lượng công việc và đóng góp được chia đều (50-50).
+
+| Thành viên | Trạng thái | Vai trò & Trách nhiệm chính |
+| :--- | :--- | :--- |
+| **Đỗ Gia Huy** | FCAJ Intern | **Pedix Lead Developer & Cloud Implementation Engineer**<br>- Chịu trách nhiệm hoàn toàn việc lập trình backend, AI logic và frontend cho Pedix.<br>- Trực tiếp thực nghiệm triển khai lên hệ thống Cloud thực tế, tích hợp hệ thống và viết báo cáo kỹ thuật. |
+| **Huỳnh Đoàn Hoàng Minh** | Học viên Bootcamp | **Pedix Supporter & Cloud Architect**<br>- Phụ trách thiết kế sơ đồ kiến trúc Cloud tổng thể và lên ý tưởng hệ thống.<br>- Hỗ trợ quá trình phát triển, đưa ra góp ý và kiểm thử dự án Pedix. |
+
 #### Nội dung
 
 1. [Tổng quan về workshop](5.1-Workshop-overview/)

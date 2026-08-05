@@ -18,6 +18,15 @@ You will learn how to architect and deploy a secure, cost-optimized production i
 + **Authentication & Data:** Managing users with Amazon Cognito, Lambda Post-Confirmation triggers, and Amazon DynamoDB On-Demand tables.
 + **Frontend Delivery:** Deploying React static assets to Amazon S3 with CloudFront CDN delivery and Origin Access Control (OAC).
 
+#### Team Contributions
+
+This project was built collaboratively by a two-person team. The workload and contributions were divided equally (50-50).
+
+| Team Member | Status | Core Roles & Responsibilities |
+| :--- | :--- | :--- |
+| **Đỗ Gia Huy** | FCAJ Intern | **Pedix Lead Developer & Cloud Implementation Engineer**<br>- Solely responsible for developing the Pedix backend, AI logic, and frontend.<br>- Executed the cloud deployment, integrated the system architecture, and authored the technical reports. |
+| **Huỳnh Đoàn Hoàng Minh** | Bootcamp Participant | **Pedix Supporter & Cloud Architect**<br>- Designed the overarching cloud architecture and conceptualized core system ideas.<br>- Provided support and testing for the Pedix development lifecycle. |
+
 #### Content
 
 1. [Workshop Overview](5.1-Workshop-overview)
